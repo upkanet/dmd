@@ -6,37 +6,37 @@ const ALP_DEFAULT  = 0;
 const ALP_DEV_DMDTYPE = 2021;
 
 /*var c = [];
-c[1001] = "ALP_NOT_ONLINE";
+c[1001] = "ALP_NOT_ONLINE";*/
 
 //DMD type (probable) "ALP_DMDTYPE_1080P_095A"
-
-//DLL Library
-var alplib = ffi.Library(path.join(__dirname, './api/alp42'), {
-    'AlpDevAlloc': ['long', ['long','long']],
-    'AlpDevInquire': ['long', ['long','long']]
-});
-
-//Initialize
-//get Device ID
-var ALP_ID = alplib.AlpDevAlloc(ALP_DEFAULT,ALP_DEFAULT);
-var AlpIdName = c[ALP_ID];
-//get Device Type
-var DMDType = alplib.AlpDevInquire(ALP_ID,ALP_DEV_DMDTYPE);
-console.log(AlpIdName,DMDType);*/
 
 class ALP {
     constructor(){
         this.lib = ffi.Library(path.join(__dirname, './api/alp42'), {
             'AlpDevAlloc': ['long', ['long','long']],
-            'AlpDevInquire': ['long', ['long','long']]
+            'AlpDevInquire': ['long', ['long','long']],
+            'AlpSeqAlloc':  ['long',['long','long','long']]
         });
+
+        this.nSizeX = 1920;
+        this.nSizeY = 1080;
     }
 
     init(){
         this.alp_id = this.lib.AlpDevAlloc(ALP_DEFAULT,ALP_DEFAULT);
         this.dmd_type = this.lib.AlpDevAlloc(ALP_DEFAULT,ALP_DEV_DMDTYPE);
 
-        console.log(this);
+        //console.log(this);
+
+    }
+
+    storeImg(images, bitDepth = 1){
+        //bitDepth : 1 = on/off and 8 = 256 pwm grayscale levels
+        var nbImg = images.length;
+
+        //Alloc Memory for Sequence
+        this.lastDDRseq = this.lib.AlpSeqAlloc(ALP_DEFAULT,bitDepth,nbImg);
+
 
     }
 

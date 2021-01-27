@@ -102,3 +102,11 @@ dist
 
 # TernJS port file
 .tern-port
+
+# Working files
+ALP4lib-master/
+bin/
+build/
+*.m
+*.bin
+*.hex
