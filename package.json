@@ -1,0 +1,23 @@
+{
+  "name": "dmd",
+  "version": "1.0.0",
+  "description": "ALP4 DMD interface",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/upkanet/dmd.git"
+  },
+  "author": "Axorus",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/upkanet/dmd/issues"
+  },
+  "homepage": "https://github.com/upkanet/dmd#readme",
+  "dependencies": {
+    "ffi-napi": "^3.1.0",
+    "python-bridge": "^1.1.0"
+  }
+}
