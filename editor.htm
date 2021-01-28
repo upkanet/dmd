@@ -89,7 +89,7 @@
         sw = sh = e.value;
     }
 
-    function launch() {
+    /*function launch() {
         var canvas = document.getElementById('can');
         var dataURL = canvas.toDataURL();
         sendImg(dataURL);
@@ -102,7 +102,19 @@
         xhr.send(JSON.stringify({
             imgB64: b64img
         }));
+    }*/
+
+    function launch() {
+        var canvas = document.getElementById('can');
+        var imageData = canvas.getContext('2d').getImageData(0, 0, 1920, 1080);
+        var u8a = new Uint8Array(imageData.data.buffer);
+
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", '/launch', false);
+        xhr.send(u8a);
     }
+
+
 
 </script>
 <style>
