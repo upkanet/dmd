@@ -52,13 +52,6 @@
         }
     }
 
-    function save() {
-        document.getElementById("canvasimg").style.border = "2px solid";
-        var dataURL = canvas.toDataURL();
-        document.getElementById("canvasimg").src = dataURL;
-        document.getElementById("canvasimg").style.display = "inline";
-    }
-
     function findxy(res, e) {
         if (res == 'down') {
             prevX = currX;
@@ -96,29 +89,35 @@
         xhr.send(u8a);
     }
 
-    function save(){
+    function save() {
         load();
         var xhr = new XMLHttpRequest();
         xhr.open("GET", '/save', false);
         xhr.send();
     }
 
-    function fullframe(){
+    function fullframe() {
         ctx.fillStyle = "white";
-        ctx.fillRect(0,0,1920,1080);
+        ctx.fillRect(0, 0, 1920, 1080);
     }
 
-    function centerCross(){
+    function centerCross() {
         var h = 1080;
         var w = 1920;
         var l = 8;
         var L = 60;
         ctx.fillStyle = "white";
-        ctx.fillRect(w/2-l/2,h/2-L/2,l,L);
-        ctx.fillRect(w/2-L/2,h/2-l/2,L,l);
-        ctx.fillRect(w/2-2*l,h/2-L/2,4*l,l);
+        ctx.fillRect(w / 2 - l / 2, h / 2 - L / 2, l, L);
+        ctx.fillRect(w / 2 - L / 2, h / 2 - l / 2, L, l);
+        ctx.fillRect(w / 2 - 2 * l, h / 2 - L / 2, 4 * l, l);
     }
 
+
+    function move(dx,dy){
+        var id = ctx.getImageData(0,0,1920,1080);
+        ctx.clearRect(0,0,1920,1080);
+        ctx.putImageData(id,dx,dy);
+    }
 
 
 </script>
@@ -140,6 +139,11 @@
     </div>
     <div onclick="save()" style="font-size:50px;position:absolute;top:120px;left:20px;cursor: pointer;">📁</div>
     <div onclick="fullframe()" style="font-size:50px;position:absolute;top:190px;left:20px;cursor: pointer;">🔲</div>
+    <div onclick="centerCross()" style="font-size:50px;position:absolute;top:260px;left:20px;cursor: pointer;">🎯</div>
+    <div onclick="move(0,-sw)" style="font-size:30px;position:absolute;top:400px;left:60px;cursor: pointer;">⬆️</div>
+    <div onclick="move(0,sw)" style="font-size:30px;position:absolute;top:480px;left:60px;cursor: pointer;">⬇️</div>
+    <div onclick="move(-sw,0)" style="font-size:30px;position:absolute;top:440px;left:20px;cursor: pointer;">⬅️</div>
+    <div onclick="move(sw,0)" style="font-size:30px;position:absolute;top:440px;left:100px;cursor: pointer;">➡️</div>
 </body>
 
 </html>
