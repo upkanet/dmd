@@ -10,6 +10,8 @@ c[1001] = "ALP_NOT_ONLINE";*/
 
 //DMD type (probable) "ALP_DMDTYPE_1080P_095A"
 
+//https://github.com/wavefrontshaping/ALP4lib
+
 class ALP {
     constructor(){
         this.lib = ffi.Library(path.join(__dirname, './api/alp42'), {
