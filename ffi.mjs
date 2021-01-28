@@ -23,8 +23,8 @@ http.createServer((req, res) => {
                 var d = fs.readFileSync(req.url.substr(1));
                 res.write(d);
             }
-            else if (req.url == '/genfile') {
-                alpimg.genfile();
+            else if (req.url == '/save') {
+                alpimg.save();
             }
             else {
                 var d = fs.readFileSync(req.url.substr(1), 'utf-8');
@@ -40,7 +40,6 @@ http.createServer((req, res) => {
                     var u8a = new Uint8Array(Buffer.concat(data));
                     data = [];
                     alpimg = new ALPimage(u8a);
-                    console.log(alpimg)
                 });
             }
         }

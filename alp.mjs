@@ -51,17 +51,31 @@ class ALPimage {
             console.log("Image should be a Uint8Array");
             process.exit(1);
         }
-        this.bin = u8aImage;
+        this.buffer = u8aImage;
+        this.bin = this.gammaOnly();
         this.header = new Int16Array([1920, 1080, 2, 1]);
-    }
-
-    genfile(path = 'bin/'){
-        console.log("GenFile");
-        fs.writeFileSync(path+"flash.bin",this.bin);
+        this.blackFrame = new Uint8Array(Array(1920 * 1080).fill(0));
+        this.path = 'bin/flash.bin';
     }
 
     base64(){
         return btoa(this.bin);
+    }
+
+    gammaOnly(){
+        var g = [];
+        this.buffer.forEach((e,i) => {
+            if(i%4 == 3){
+                g.push(e);
+            }
+        });
+        return new Uint8Array(g);
+    }
+
+    save(){
+        fs.writeFileSync(this.path,this.header);
+        fs.appendFileSync(this.path,this.bin);
+        fs.appendFileSync(this.path,this.blackFrame);
     }
 }
 

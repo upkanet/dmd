@@ -35,12 +35,12 @@
     function draw() {
         ctx.beginPath();
         if (document.getElementById('eraser').checked) {
-            ctx.fillStyle = "black";
+            ctx.clearRect(currX - sw / 2, currY - sh / 2, sw, sh);
         }
         else {
             ctx.fillStyle = "white";
+            ctx.fillRect(currX - sw / 2, currY - sh / 2, sw, sh);
         }
-        ctx.fillRect(currX - sw / 2, currY - sh / 2, sw, sh);
         ctx.stroke();
         ctx.closePath();
     }
@@ -96,14 +96,14 @@
         xhr.send(u8a);
     }
 
-    function genfile(){
+    function save(){
         load();
         var xhr = new XMLHttpRequest();
-        xhr.open("GET", '/genfile', true);
+        xhr.open("GET", '/save', false);
         xhr.send();
     }
 
-    function AllBlacks(){
+    function fullframe(){
         ctx.fillStyle = "black";
         ctx.fillRect(0,0,1920,1080);
     }
@@ -116,6 +116,7 @@
         ctx.fillStyle = "white";
         ctx.fillRect(w/2-l/2,h/2-L/2,l,L);
         ctx.fillRect(w/2-L/2,h/2-l/2,L,l);
+        ctx.fillRect(w/2-2*l,h/2-L/2,4*l,l);
     }
 
 
@@ -124,7 +125,7 @@
 <style>
     body {
         color: white;
-        background-color: blue;
+        background-color: black;
     }
 </style>
 
@@ -137,7 +138,7 @@
         <input type="checkbox" id="eraser">
         <span onclick="document.querySelector('#eraser').checked=!document.querySelector('#eraser').checked">🧽</span>
     </div>
-    <div onclick="genfile()" style="font-size:50px;position:absolute;top:120px;left:20px;cursor: pointer;">📁</div>
+    <div onclick="save()" style="font-size:50px;position:absolute;top:120px;left:20px;cursor: pointer;">📁</div>
 </body>
 
 </html>

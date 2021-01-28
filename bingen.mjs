@@ -16,5 +16,5 @@ function prefill(v,cols,rows){
 }
 
 fs.writeFileSync(binPath,header);
-fs.appendFileSync(binPath,frameBlack);
 fs.appendFileSync(binPath,frameWhite);
+fs.appendFileSync(binPath,frameBlack);
