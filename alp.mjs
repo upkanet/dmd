@@ -1,6 +1,7 @@
 import ffi from 'ffi-napi';
 import path from 'path';
 const __dirname = path.resolve();
+import fs from 'fs';
 
 const ALP_DEFAULT  = 0;
 const ALP_DEV_DMDTYPE = 2021;
@@ -44,4 +45,24 @@ class ALP {
 
 }
 
-export { ALP };
+class ALPimage {
+    constructor(u8aImage){
+        if(u8aImage.constructor !== Uint8Array){
+            console.log("Image should be a Uint8Array");
+            process.exit(1);
+        }
+        this.bin = u8aImage;
+        this.header = new Int16Array([1920, 1080, 2, 1]);
+    }
+
+    genfile(path = 'bin/'){
+        console.log("GenFile");
+        fs.writeFileSync(path+"flash.bin",this.bin);
+    }
+
+    base64(){
+        return btoa(this.bin);
+    }
+}
+
+export { ALP, ALPimage };

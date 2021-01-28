@@ -16,8 +16,7 @@
         w = canvas.width;
         h = canvas.height;
 
-        ctx.fillStyle = "black";
-        ctx.fillRect(0, 0, w, h);
+        ctx.clearRect(0, 0, w, h);
 
         canvas.addEventListener("mousemove", function (e) {
             findxy('move', e)
@@ -49,9 +48,7 @@
     function erase() {
         var m = confirm("Effacer ?");
         if (m) {
-            ctx.fillStyle = "black";
-            ctx.fillRect(0, 0, w, h);
-            document.getElementById("canvasimg").style.display = "none";
+            ctx.clearRect(0, 0, w, h);
         }
     }
 
@@ -89,29 +86,36 @@
         sw = sh = e.value;
     }
 
-    /*function launch() {
-        var canvas = document.getElementById('can');
-        var dataURL = canvas.toDataURL();
-        sendImg(dataURL);
-    }
-
-    function sendImg(b64img){
-        var xhr = new XMLHttpRequest();
-        xhr.open("POST", '/launch', true);
-        xhr.setRequestHeader('Content-Type', 'application/json');
-        xhr.send(JSON.stringify({
-            imgB64: b64img
-        }));
-    }*/
-
-    function launch() {
+    function load() {
         var canvas = document.getElementById('can');
         var imageData = canvas.getContext('2d').getImageData(0, 0, 1920, 1080);
         var u8a = new Uint8Array(imageData.data.buffer);
 
         var xhr = new XMLHttpRequest();
-        xhr.open("POST", '/launch', false);
+        xhr.open("POST", '/load', false);
         xhr.send(u8a);
+    }
+
+    function genfile(){
+        load();
+        var xhr = new XMLHttpRequest();
+        xhr.open("GET", '/genfile', true);
+        xhr.send();
+    }
+
+    function AllBlacks(){
+        ctx.fillStyle = "black";
+        ctx.fillRect(0,0,1920,1080);
+    }
+
+    function centerCross(){
+        var h = 1080;
+        var w = 1920;
+        var l = 8;
+        var L = 60;
+        ctx.fillStyle = "white";
+        ctx.fillRect(w/2-l/2,h/2-L/2,l,L);
+        ctx.fillRect(w/2-L/2,h/2-l/2,L,l);
     }
 
 
@@ -120,16 +124,20 @@
 <style>
     body {
         color: white;
-        background-color: black;
+        background-color: blue;
     }
 </style>
 
 <body onload="init()">
     <canvas id="can" width="1920" height="1080" style="position:absolute;top:0;left:0;border:1px solid white;"></canvas>
-    <div onclick="launch()" style="font-size:50px;position:absolute;top:10px;left:20px;cursor: pointer;">L</div>
-    <div onclick="erase()" style="font-size:50px;position:absolute;top:10px;left:100px;cursor: pointer;">D</div>
-    <input type="range" min="1" max="600" onclick="sizer(this)" style="position:absolute;top:40px;left:180px;">
-    <input type="checkbox" id="eraser" style="position:absolute;top:15px;left:200px;">
+    <div onclick="load()" style="font-size:50px;position:absolute;top:10px;left:20px;cursor: pointer;">🔬</div>
+    <div onclick="erase()" style="font-size:50px;position:absolute;top:10px;left:100px;cursor: pointer;">🗑️</div>
+    <input type="range" min="1" max="600" onclick="sizer(this)" style="position:absolute;top:100px;left:50px;">
+    <div style="font-size:50px;position:absolute;top:0px;left:200px;">
+        <input type="checkbox" id="eraser">
+        <span onclick="document.querySelector('#eraser').checked=!document.querySelector('#eraser').checked">🧽</span>
+    </div>
+    <div onclick="genfile()" style="font-size:50px;position:absolute;top:120px;left:20px;cursor: pointer;">📁</div>
 </body>
 
 </html>
