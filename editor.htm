@@ -81,7 +81,7 @@
 
     function load() {
         var canvas = document.getElementById('can');
-        var imageData = canvas.getContext('2d').getImageData(0, 0, 1920, 1080);
+        var imageData = canvas.getContext('2d').getImageData(0, 0, 1024, 768);
         var u8a = new Uint8Array(imageData.data.buffer);
 
         var xhr = new XMLHttpRequest();
@@ -98,12 +98,12 @@
 
     function fullframe() {
         ctx.fillStyle = "white";
-        ctx.fillRect(0, 0, 1920, 1080);
+        ctx.fillRect(0, 0, 1024, 768);
     }
 
     function centerCross() {
-        var h = 1080;
-        var w = 1920;
+        var h = 768;
+        var w = 1024;
         var l = 8;
         var L = 60;
         ctx.fillStyle = "white";
@@ -114,8 +114,8 @@
 
 
     function move(dx,dy){
-        var id = ctx.getImageData(0,0,1920,1080);
-        ctx.clearRect(0,0,1920,1080);
+        var id = ctx.getImageData(0,0,1024,768);
+        ctx.clearRect(0,0,1024,768);
         ctx.putImageData(id,dx,dy);
     }
 
@@ -129,7 +129,7 @@
 </style>
 
 <body onload="init()">
-    <canvas id="can" width="1920" height="1080" style="position:absolute;top:0;left:0;border:1px solid white;"></canvas>
+    <canvas id="can" width="1024" height="768" style="position:absolute;top:0;left:0;border:1px solid white;"></canvas>
     <div onclick="load()" style="font-size:50px;position:absolute;top:10px;left:20px;cursor: pointer;">🔬</div>
     <div onclick="erase()" style="font-size:50px;position:absolute;top:10px;left:100px;cursor: pointer;">🗑️</div>
     <input type="range" min="1" max="600" onclick="sizer(this)" style="position:absolute;top:100px;left:50px;">

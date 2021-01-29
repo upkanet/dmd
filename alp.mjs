@@ -9,7 +9,7 @@ const ALP_DEV_DMDTYPE = 2021;
 /*var c = [];
 c[1001] = "ALP_NOT_ONLINE";*/
 
-//DMD type (probable) "ALP_DMDTYPE_1080P_095A"
+//DMD type (probable) "ALP_DMDTYPE_768P_095A"
 //https://github.com/wavefrontshaping/ALP4lib/blob/master/src/ALP4.py#L396
 
 //https://github.com/wavefrontshaping/ALP4lib
@@ -22,8 +22,8 @@ class ALP {
             'AlpSeqAlloc':  ['long',['long','long','long']]
         });
 
-        this.nSizeX = 1920;
-        this.nSizeY = 1080;
+        this.nSizeX = 1024;
+        this.nSizeY = 768;
     }
 
     init(){
@@ -55,8 +55,8 @@ class ALPimage {
         }
         this.buffer = u8aImage;
         this.bin = this.gammaOnly();
-        this.header = new Int16Array([1920, 1080, 2, 1]);
-        this.blackFrame = new Uint8Array(Array(1920 * 1080).fill(0));
+        this.header = new Int16Array([1024, 768, 2, 1]);
+        this.blackFrame = new Uint8Array(Array(1024 * 768).fill(0));
         this.path = 'bin/flash.bin';
     }
 
@@ -76,8 +76,11 @@ class ALPimage {
 
     save(){
         fs.writeFileSync(this.path,this.header);
-        fs.appendFileSync(this.path,this.bin);
+        console.log("Header:",this.header.length);
         fs.appendFileSync(this.path,this.blackFrame);
+        console.log("Black Frame:",this.blackFrame.length);
+        fs.appendFileSync(this.path,this.bin);
+        console.log("Image:",this.bin.length);
     }
 }
 
