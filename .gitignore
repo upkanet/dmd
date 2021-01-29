@@ -105,7 +105,8 @@ dist
 
 # Working files
 ALP4lib-master/
-bin/
+bin/*
+!bin/.gitignore
 build/
 *.m
 *.bin

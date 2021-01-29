@@ -1,6 +1,7 @@
 import ffi from 'ffi-napi';
 import path from 'path';
 const __dirname = path.resolve();
+import fs from 'fs';
 
 const ALP_DEFAULT  = 0;
 const ALP_DEV_DMDTYPE = 2021;
@@ -10,6 +11,8 @@ c[1001] = "ALP_NOT_ONLINE";*/
 
 //DMD type (probable) "ALP_DMDTYPE_1080P_095A"
 //https://github.com/wavefrontshaping/ALP4lib/blob/master/src/ALP4.py#L396
+
+//https://github.com/wavefrontshaping/ALP4lib
 
 class ALP {
     constructor(){
@@ -44,4 +47,38 @@ class ALP {
 
 }
 
-export { ALP };
+class ALPimage {
+    constructor(u8aImage){
+        if(u8aImage.constructor !== Uint8Array){
+            console.log("Image should be a Uint8Array");
+            process.exit(1);
+        }
+        this.buffer = u8aImage;
+        this.bin = this.gammaOnly();
+        this.header = new Int16Array([1920, 1080, 2, 1]);
+        this.blackFrame = new Uint8Array(Array(1920 * 1080).fill(0));
+        this.path = 'bin/flash.bin';
+    }
+
+    base64(){
+        return btoa(this.bin);
+    }
+
+    gammaOnly(){
+        var g = [];
+        this.buffer.forEach((e,i) => {
+            if(i%4 == 3){
+                g.push(e);
+            }
+        });
+        return new Uint8Array(g);
+    }
+
+    save(){
+        fs.writeFileSync(this.path,this.header);
+        fs.appendFileSync(this.path,this.bin);
+        fs.appendFileSync(this.path,this.blackFrame);
+    }
+}
+
+export { ALP, ALPimage };

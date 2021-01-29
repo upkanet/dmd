@@ -16,8 +16,7 @@
         w = canvas.width;
         h = canvas.height;
 
-        ctx.fillStyle = "black";
-        ctx.fillRect(0, 0, w, h);
+        ctx.clearRect(0, 0, w, h);
 
         canvas.addEventListener("mousemove", function (e) {
             findxy('move', e)
@@ -36,12 +35,12 @@
     function draw() {
         ctx.beginPath();
         if (document.getElementById('eraser').checked) {
-            ctx.fillStyle = "black";
+            ctx.clearRect(currX - sw / 2, currY - sh / 2, sw, sh);
         }
         else {
             ctx.fillStyle = "white";
+            ctx.fillRect(currX - sw / 2, currY - sh / 2, sw, sh);
         }
-        ctx.fillRect(currX - sw / 2, currY - sh / 2, sw, sh);
         ctx.stroke();
         ctx.closePath();
     }
@@ -49,17 +48,8 @@
     function erase() {
         var m = confirm("Effacer ?");
         if (m) {
-            ctx.fillStyle = "black";
-            ctx.fillRect(0, 0, w, h);
-            document.getElementById("canvasimg").style.display = "none";
+            ctx.clearRect(0, 0, w, h);
         }
-    }
-
-    function save() {
-        document.getElementById("canvasimg").style.border = "2px solid";
-        var dataURL = canvas.toDataURL();
-        document.getElementById("canvasimg").src = dataURL;
-        document.getElementById("canvasimg").style.display = "inline";
     }
 
     function findxy(res, e) {
@@ -89,20 +79,46 @@
         sw = sh = e.value;
     }
 
-    function launch() {
+    function load() {
         var canvas = document.getElementById('can');
-        var dataURL = canvas.toDataURL();
-        sendImg(dataURL);
+        var imageData = canvas.getContext('2d').getImageData(0, 0, 1920, 1080);
+        var u8a = new Uint8Array(imageData.data.buffer);
+
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", '/load', false);
+        xhr.send(u8a);
     }
 
-    function sendImg(b64img){
+    function save() {
+        load();
         var xhr = new XMLHttpRequest();
-        xhr.open("POST", '/launch', true);
-        xhr.setRequestHeader('Content-Type', 'application/json');
-        xhr.send(JSON.stringify({
-            imgB64: b64img
-        }));
+        xhr.open("GET", '/save', false);
+        xhr.send();
     }
+
+    function fullframe() {
+        ctx.fillStyle = "white";
+        ctx.fillRect(0, 0, 1920, 1080);
+    }
+
+    function centerCross() {
+        var h = 1080;
+        var w = 1920;
+        var l = 8;
+        var L = 60;
+        ctx.fillStyle = "white";
+        ctx.fillRect(w / 2 - l / 2, h / 2 - L / 2, l, L);
+        ctx.fillRect(w / 2 - L / 2, h / 2 - l / 2, L, l);
+        ctx.fillRect(w / 2 - 2 * l, h / 2 - L / 2, 4 * l, l);
+    }
+
+
+    function move(dx,dy){
+        var id = ctx.getImageData(0,0,1920,1080);
+        ctx.clearRect(0,0,1920,1080);
+        ctx.putImageData(id,dx,dy);
+    }
+
 
 </script>
 <style>
@@ -114,10 +130,20 @@
 
 <body onload="init()">
     <canvas id="can" width="1920" height="1080" style="position:absolute;top:0;left:0;border:1px solid white;"></canvas>
-    <div onclick="launch()" style="font-size:50px;position:absolute;top:10px;left:20px;cursor: pointer;">🔬</div>
+    <div onclick="load()" style="font-size:50px;position:absolute;top:10px;left:20px;cursor: pointer;">🔬</div>
     <div onclick="erase()" style="font-size:50px;position:absolute;top:10px;left:100px;cursor: pointer;">🗑️</div>
-    <input type="range" min="1" max="600" onclick="sizer(this)" style="position:absolute;top:40px;left:180px;">
-    <input type="checkbox" id="eraser" style="position:absolute;top:15px;left:200px;">
+    <input type="range" min="1" max="600" onclick="sizer(this)" style="position:absolute;top:100px;left:50px;">
+    <div style="font-size:50px;position:absolute;top:0px;left:200px;">
+        <input type="checkbox" id="eraser">
+        <span onclick="document.querySelector('#eraser').checked=!document.querySelector('#eraser').checked">🧽</span>
+    </div>
+    <div onclick="save()" style="font-size:50px;position:absolute;top:120px;left:20px;cursor: pointer;">📁</div>
+    <div onclick="fullframe()" style="font-size:50px;position:absolute;top:190px;left:20px;cursor: pointer;">🔲</div>
+    <div onclick="centerCross()" style="font-size:50px;position:absolute;top:260px;left:20px;cursor: pointer;">🎯</div>
+    <div onclick="move(0,-sw)" style="font-size:30px;position:absolute;top:400px;left:60px;cursor: pointer;">⬆️</div>
+    <div onclick="move(0,sw)" style="font-size:30px;position:absolute;top:480px;left:60px;cursor: pointer;">⬇️</div>
+    <div onclick="move(-sw,0)" style="font-size:30px;position:absolute;top:440px;left:20px;cursor: pointer;">⬅️</div>
+    <div onclick="move(sw,0)" style="font-size:30px;position:absolute;top:440px;left:100px;cursor: pointer;">➡️</div>
 </body>
 
 </html>
