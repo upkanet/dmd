@@ -8,8 +8,8 @@
         currY = 0,
         dot_flag = false;
 
-    var sw = 300,
-        sh = 300;
+    var sw = 100,
+        sh = 100;
 
     function init() {
         canvas = document.getElementById('can');
@@ -31,6 +31,8 @@
         canvas.addEventListener("mouseout", function (e) {
             findxy('out', e)
         }, false);
+
+        drawBG();
     }
 
     function draw() {
@@ -122,14 +124,34 @@
 
     function loadBin() {
         ctx.clearRect(0, 0, w, h);
-        $.getJSON( "/loadbin", ( data ) => {
+        $.getJSON("/loadbin", (data) => {
             console.log(data);
             var image = new Image();
             image.onload = () => {
-                ctx.drawImage(image,0,0);
+                ctx.drawImage(image, 0, 0);
             }
             image.src = data;
         });
+    }
+
+    function drawBG() {
+        cbg = document.getElementById('canbg');
+        ctxbg = cbg.getContext("2d");
+        ctxbg.strokeStyle = "blue";
+
+        for(var i = 0; i < 10; i++){
+            ctxbg.beginPath();
+            ctxbg.moveTo(i*w/10, 0);
+            ctxbg.lineTo(i*w/10, h);
+            ctxbg.stroke();
+        }
+
+        for(var i = 0; i < 10; i++){
+            ctxbg.beginPath();
+            ctxbg.moveTo(0, i*h/10);
+            ctxbg.lineTo(w, i*h/10);
+            ctxbg.stroke();
+        }
     }
 
 
@@ -143,9 +165,10 @@
 
 <body onload="init()">
     <canvas id="can" width="1024" height="768" style="position:absolute;top:0;left:0;border:1px solid white;"></canvas>
+    <canvas id="canbg" width="1024" height="768" style="position:absolute;top:0;left:0;z-index:2;pointer-events: none;"></canvas>
     <div onclick="load()" style="font-size:50px;position:absolute;top:10px;left:20px;cursor: pointer;">🔬</div>
     <div onclick="erase()" style="font-size:50px;position:absolute;top:10px;left:100px;cursor: pointer;">🗑️</div>
-    <input type="range" min="1" max="600" onclick="sizer(this)" style="position:absolute;top:100px;left:50px;">
+    <input type="range" min="1" max="200" onclick="sizer(this)" style="position:absolute;top:100px;left:50px;">
     <div style="font-size:50px;position:absolute;top:0px;left:200px;">
         <input type="checkbox" id="eraser">
         <span onclick="document.querySelector('#eraser').checked=!document.querySelector('#eraser').checked">🧽</span>
@@ -153,10 +176,10 @@
     <div onclick="save()" style="font-size:50px;position:absolute;top:120px;left:20px;cursor: pointer;">📁</div>
     <div onclick="fullframe()" style="font-size:50px;position:absolute;top:190px;left:20px;cursor: pointer;">🔲</div>
     <div onclick="centerCross()" style="font-size:50px;position:absolute;top:260px;left:20px;cursor: pointer;">🎯</div>
-    <div onclick="move(0,-sw)" style="font-size:30px;position:absolute;top:400px;left:60px;cursor: pointer;">⬆️</div>
-    <div onclick="move(0,sw)" style="font-size:30px;position:absolute;top:480px;left:60px;cursor: pointer;">⬇️</div>
-    <div onclick="move(-sw,0)" style="font-size:30px;position:absolute;top:440px;left:20px;cursor: pointer;">⬅️</div>
-    <div onclick="move(sw,0)" style="font-size:30px;position:absolute;top:440px;left:100px;cursor: pointer;">➡️</div>
+    <div onclick="move(0,-h/10)" style="font-size:30px;position:absolute;top:400px;left:60px;cursor: pointer;">⬆️</div>
+    <div onclick="move(0,h/10)" style="font-size:30px;position:absolute;top:480px;left:60px;cursor: pointer;">⬇️</div>
+    <div onclick="move(-w/10,0)" style="font-size:30px;position:absolute;top:440px;left:20px;cursor: pointer;">⬅️</div>
+    <div onclick="move(w/10,0)" style="font-size:30px;position:absolute;top:440px;left:100px;cursor: pointer;">➡️</div>
 </body>
 
 </html>
