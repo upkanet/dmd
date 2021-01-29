@@ -9,6 +9,7 @@ const ALP_DEV_DMDTYPE = 2021;
 c[1001] = "ALP_NOT_ONLINE";*/
 
 //DMD type (probable) "ALP_DMDTYPE_1080P_095A"
+//https://github.com/wavefrontshaping/ALP4lib/blob/master/src/ALP4.py#L396
 
 class ALP {
     constructor(){
@@ -31,6 +32,7 @@ class ALP {
     }
 
     storeImg(images, bitDepth = 1){
+        //images : array of base64
         //bitDepth : 1 = on/off and 8 = 256 pwm grayscale levels
         var nbImg = images.length;
 
