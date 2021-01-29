@@ -1,16 +1,15 @@
-import { ALP } from './alp.mjs';
+import { ALP, ALPimage, loadBIN } from './alp.mjs';
 import http from 'http';
 import open from 'open';
 import fs from 'fs';
-import { ALPimage } from './alp.mjs';
 
 var alp = new ALP();
 alp.init();
 var data = [];
 var alpimg;
 
-open('http://localhost:8080/');
-http.createServer((req, res) => {
+//open('http://localhost:8080/');
+http.createServer(async (req, res) => {
     try {
         console.log(req.method);
         if (req.method === 'GET') {
@@ -25,6 +24,10 @@ http.createServer((req, res) => {
             }
             else if (req.url == '/save') {
                 alpimg.save();
+            }
+            else if (req.url == '/loadbin') {
+                var d = await loadBIN();
+                res.write(JSON.stringify(d));
             }
             else {
                 var d = fs.readFileSync(req.url.substr(1), 'utf-8');

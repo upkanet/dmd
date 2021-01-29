@@ -1,4 +1,5 @@
 <html>
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script type="text/javascript">
     var canvas, ctx, flag = false,
         prevX = 0,
@@ -113,10 +114,22 @@
     }
 
 
-    function move(dx,dy){
-        var id = ctx.getImageData(0,0,1024,768);
-        ctx.clearRect(0,0,1024,768);
-        ctx.putImageData(id,dx,dy);
+    function move(dx, dy) {
+        var id = ctx.getImageData(0, 0, 1024, 768);
+        ctx.clearRect(0, 0, 1024, 768);
+        ctx.putImageData(id, dx, dy);
+    }
+
+    function loadBin() {
+        ctx.clearRect(0, 0, w, h);
+        $.getJSON( "/loadbin", ( data ) => {
+            console.log(data);
+            var image = new Image();
+            image.onload = () => {
+                ctx.drawImage(image,0,0);
+            }
+            image.src = data;
+        });
     }
 
 
