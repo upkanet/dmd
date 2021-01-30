@@ -3,6 +3,7 @@ import path from 'path';
 const __dirname = path.resolve();
 import fs from 'fs';
 import Jimp from 'jimp';
+import { spawn } from 'child_process';
 
 const ALP_DEFAULT = 0;
 const ALP_DEV_DMDTYPE = 2021;
@@ -18,7 +19,7 @@ c[1001] = "ALP_NOT_ONLINE";*/
 class ALP {
     constructor() {
         this.lib = ffi.Library(path.join(__dirname, './api/alp42'), {
-            'AlpDevAlloc': ['long', ['long', 'long']],
+            'AlpDevAlloc': ['long', ['long', 'long', 'pointer']],
             'AlpDevInquire': ['long', ['long', 'long']],
             'AlpSeqAlloc': ['long', ['long', 'long', 'long']]
         });
@@ -83,7 +84,6 @@ class ALPimage {
         fs.appendFileSync(this.path, this.bin);
         console.log("Image:", this.bin.length);
     }
-
 }
 
 async function loadBIN(binpath = "bin/flash.bin") {
@@ -91,32 +91,38 @@ async function loadBIN(binpath = "bin/flash.bin") {
     var u8a = new Uint8Array(buff);
     var a = [];
     var b = [];
-    u8a.forEach( (e,i) => {
-        if(i<8){
+    u8a.forEach((e, i) => {
+        if (i < 8) {
             //console.log("out",i,e);
         }
-        else if(i < 1024*768+8){
+        else if (i < 1024 * 768 + 8) {
             /*a.push(e);//R
             a.push(e);//G
             a.push(e);//B
             a.push(e);//A*/
         }
-        else{
+        else {
             b.push(e);//R
             b.push(e);//G
             b.push(e);//B
             b.push(e);//A
         }
     });
-    
-    console.log(a.length,b.length);
-    
+
+    console.log(a.length, b.length);
+
     //var imAbuff = new Uint8Array(a);
     var imBbuff = new Uint8Array(b);
-    var jb = new Jimp({data: imBbuff, width:1024, height: 768});
+    var jb = new Jimp({ data: imBbuff, width: 1024, height: 768 });
     var b64 = await jb.getBase64Async(Jimp.MIME_PNG);
     return b64;
 }
 
+function playDMD() {
+    spawn('exe/axodmd.exe',[], {
+        stdio: 'inherit' // Will use process .stdout, .stdin, .stderr
+    })
+}
 
-export { ALP, ALPimage, loadBIN };
+
+export { ALP, ALPimage, loadBIN, playDMD };

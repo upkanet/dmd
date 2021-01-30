@@ -1,10 +1,10 @@
-import { ALP, ALPimage, loadBIN } from './alp.mjs';
+import { ALP, ALPimage, loadBIN, playDMD } from './alp.mjs';
 import http from 'http';
 import open from 'open';
 import fs from 'fs';
 
-var alp = new ALP();
-alp.init();
+//var alp = new ALP();
+//alp.init();
 var data = [];
 var alpimg;
 
@@ -28,6 +28,9 @@ http.createServer(async (req, res) => {
             else if (req.url == '/loadbin') {
                 var d = await loadBIN();
                 res.write(JSON.stringify(d));
+            }
+            else if (req.url == '/play') {
+                playDMD();
             }
             else {
                 var d = fs.readFileSync(req.url.substr(1), 'utf-8');
