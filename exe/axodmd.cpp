@@ -1,13 +1,4 @@
-/* NO DARK PHASE
-This sample is provided as-is, without any warranty.
-
-(c) 2007 ViALUX GmbH. All rights reserved.
-*/
-
-// BlackWhiteSample.cpp : Defines the entry point for the console application.
-//
-
-//#include <TCHAR.h>
+/* Axorus DMD Player for Vialux DMD */
 #include <windows.h>
 #include <conio.h>
 #include <stdio.h>
@@ -128,9 +119,9 @@ int main(int argc, const char **argv)
 
 	cout << ".bin file path : " + bin_name + "\n";
 	cout << ".vec file path : " + vec_name + "\n";
-	cout << "Rate : " + to_string(rate) + " Hz\n";
-	cout << "Gray Rate : " + to_string(gray_rate) + " Hz\n";
-	cout << "Bit depth : " + to_string(bitDepth) + "\n";
+	printf("Rate : %.0f Hz\n",rate);
+	printf("Gray Rate : %.0f Hz\n", gray_rate);
+	printf("Bit depth : %.0f\n", bitDepth);
 
 	cout << "\n";
 
