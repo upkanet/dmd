@@ -168,6 +168,11 @@
         $(o).css('color',col);
     }
 
+    function play(){
+        save();
+        $.getJSON("/play");
+    }
+
 
 </script>
 <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
@@ -196,7 +201,7 @@
 
 <body onload="init()">
     <div id="menu">
-        <span onclick="load()"><i class="ri-microscope-line"></i></span>
+        <span onclick="play()"><i class="ri-microscope-line"></i></span>
         <span onclick="erase()"><i class="ri-delete-bin-line"></i></span>
         <span onclick="toggleEraser(this)"><i class="ri-eraser-line"></i></span>
         <span onclick="save()"><i class="ri-save-3-line"></i></span>
