@@ -201,17 +201,17 @@
 
 <body onload="init()">
     <div id="menu">
-        <span onclick="play()"><i class="ri-microscope-line"></i></span>
-        <span onclick="erase()"><i class="ri-delete-bin-line"></i></span>
-        <span onclick="toggleEraser(this)"><i class="ri-eraser-line"></i></span>
-        <span onclick="save()"><i class="ri-save-3-line"></i></span>
-        <span onclick="fullframe()"><i class="ri-sun-line"></i></span>
-        <span onclick="centerCross()"><i class="ri-focus-3-line"></i></span>
-        <span onclick="move(0,-h/10)"><i class="ri-arrow-up-line"></i></span>
-        <span onclick="move(0,h/10)"><i class="ri-arrow-down-line"></i></span>
-        <span onclick="move(-w/10,0)"><i class="ri-arrow-left-line"></i></span>
-        <span onclick="move(w/10,0)"><i class="ri-arrow-right-line"></i></span>
-        <span onclick="loadBin()"><i class="ri-database-2-line"></i></span>
+        <span onclick="play()" title="Play on Microscope"><i class="ri-microscope-line"></i></span>
+        <span onclick="erase()" title="Clear image"><i class="ri-delete-bin-line"></i></span>
+        <span onclick="toggleEraser(this)" title="Eraser"><i class="ri-eraser-line"></i></span>
+        <span onclick="save()" title="Save BIN to bin/flash.bin"><i class="ri-save-3-line"></i></span>
+        <span onclick="fullframe()" title="Fullframe"><i class="ri-sun-line"></i></span>
+        <span onclick="centerCross()" title="Draw Center Cross for reference"><i class="ri-focus-3-line"></i></span>
+        <span onclick="move(0,-h/10)" title="Move Up"><i class="ri-arrow-up-line"></i></span>
+        <span onclick="move(0,h/10)" title="Move Down"><i class="ri-arrow-down-line"></i></span>
+        <span onclick="move(-w/10,0)" title="Move Left"><i class="ri-arrow-left-line"></i></span>
+        <span onclick="move(w/10,0)" title="Move Right"><i class="ri-arrow-right-line"></i></span>
+        <span onclick="loadBin()" title="Load BIN from bin/flash.bin"><i class="ri-database-2-line"></i></span>
     </div>
     <div id="editor">
         <canvas id="can" width="1024" height="768" style="position:absolute;top:0;left:0px;border:1px solid white;"></canvas>
