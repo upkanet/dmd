@@ -119,9 +119,15 @@ async function loadBIN(binpath = "bin/flash.bin") {
 }
 
 function playDMD() {
-    spawn('exe/axodmd.exe',[], {
+    var axodmd = spawn('exe/axodmd.exe',['bin',1000,1000,8], {
         stdio: 'inherit' // Will use process .stdout, .stdin, .stderr
-    })
+    });
+    axodmd.on('error',(e) => {
+        console.err('[ERROR] Axorus DMD',e);
+    });
+    axodmd.on('exit',() => {
+        console.log('Axorus DMD has finished');
+    });
 }
 
 
