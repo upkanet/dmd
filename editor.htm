@@ -155,6 +155,17 @@
             ctxbg.lineTo(w, i*h/10);
             ctxbg.stroke();
         }
+
+        ctxbg.fillStyle = "blue";
+        ctxbg.font = "12px Arial";
+        for(var i = 0; i < 10; i++){
+            ctxbg.fillText(i, i * w / 10 + 10, h/2 - 10);
+        }
+        for(var i = 0; i < 10; i++){
+            var alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split('');
+            ctxbg.fillText(alphabet[i], w / 2 + 10, i * h / 10 + 20);
+        }
+        
     }
 
     var eraser = false;
@@ -171,6 +182,10 @@
     function play(){
         save();
         $.getJSON("/play");
+    }
+
+    function stop(){
+        $.getJSON("/stop");
     }
 
 
@@ -202,6 +217,7 @@
 <body onload="init()">
     <div id="menu">
         <span onclick="play()" title="Play on Microscope"><i class="ri-microscope-line"></i></span>
+        <span onclick="stop()" title="Stop equence on Microscope"><i class="ri-stop-circle-line"></i></span>
         <span onclick="erase()" title="Clear image"><i class="ri-delete-bin-line"></i></span>
         <span onclick="toggleEraser(this)" title="Eraser"><i class="ri-eraser-line"></i></span>
         <span onclick="save()" title="Save BIN to bin/flash.bin"><i class="ri-save-3-line"></i></span>

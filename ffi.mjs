@@ -1,4 +1,4 @@
-import { ALP, ALPimage, loadBIN, playDMD } from './alp.mjs';
+import { ALP, ALPimage, loadBIN, playDMD, stopDMD } from './alp.mjs';
 import http from 'http';
 import open from 'open';
 import fs from 'fs';
@@ -8,7 +8,7 @@ import fs from 'fs';
 var data = [];
 var alpimg;
 
-//open('http://localhost:8080/');
+open('http://localhost:8080/');
 http.createServer(async (req, res) => {
     try {
         console.log(req.method);
@@ -31,6 +31,9 @@ http.createServer(async (req, res) => {
             }
             else if (req.url == '/play') {
                 playDMD();
+            }
+            else if (req.url == '/stop') {
+                stopDMD();
             }
             else {
                 var d = fs.readFileSync(req.url.substr(1), 'utf-8');

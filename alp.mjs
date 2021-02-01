@@ -118,17 +118,24 @@ async function loadBIN(binpath = "bin/flash.bin") {
     return b64;
 }
 
+var axodmd;
+
 function playDMD() {
-    var axodmd = spawn('exe/axodmd.exe',['bin',1000,1000,8], {
+    console.log('\x1b[36m%s\x1b[0m',"Launch AxoDMD player");
+    axodmd = spawn('exe/axodmd.exe',['bin',1000,1000,8], {
         stdio: 'inherit' // Will use process .stdout, .stdin, .stderr
     });
     axodmd.on('error',(e) => {
         console.err('[ERROR] Axorus DMD',e);
     });
     axodmd.on('exit',() => {
-        console.log('Axorus DMD has finished');
+        console.log('\x1b[36m%s\x1b[0m','Axorus DMD has finished');
     });
 }
 
+function stopDMD(){
+    axodmd.kill('SIGINT');
+}
 
-export { ALP, ALPimage, loadBIN, playDMD };
+
+export { ALP, ALPimage, loadBIN, playDMD, stopDMD };
