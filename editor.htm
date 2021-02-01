@@ -142,16 +142,16 @@
         ctxbg = cbg.getContext("2d");
         ctxbg.strokeStyle = "blue";
 
-        for(var i = 0; i < 10; i++){
+        for(var i = 1; i < 10; i++){
             ctxbg.beginPath();
-            ctxbg.moveTo(i*w/10, 0);
+            ctxbg.moveTo(i*w/10, 1);
             ctxbg.lineTo(i*w/10, h);
             ctxbg.stroke();
         }
 
-        for(var i = 0; i < 10; i++){
+        for(var i = 1; i < 10; i++){
             ctxbg.beginPath();
-            ctxbg.moveTo(0, i*h/10);
+            ctxbg.moveTo(1, i*h/10);
             ctxbg.lineTo(w, i*h/10);
             ctxbg.stroke();
         }
