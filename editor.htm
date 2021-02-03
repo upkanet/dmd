@@ -255,6 +255,13 @@
         left: 1150px;
         width: 150px;
     }
+
+    #timing {
+        position: absolute;
+        top: 200px;
+        left: 1150px;
+        width: 150px;
+    }
 </style>
 
 <body onload="init()">
@@ -282,7 +289,13 @@
         <input type="checkbox" name="flipH" id="flipH" checked="checked"> Flip Horizontaly
         <input type="checkbox" name="flipV" id="flipV"> Flip Verticaly
     </div>
-    <input type="range" min="1" max="100" onclick="sizer(this)" style="position:absolute;top:20px;left:110px;">
+    <div id="timing">
+        <p>Timing</p>
+        <label for="flashDuration">flashDuration</label><input id="flashDuration" type="text">
+        <label for="flashPeriod">flashPeriod</label><input id="flashPeriod" type="text">
+        <label for="flashNumber">flashNumber</label><input id="flashNumber" type="text">
+    </div>
+    <input type="range" min="1" max="100" onclick="sizer(this)" style="position:absolute;top:20px;left:110px;z-index: 3; width: 250px;">
     <canvas id="canprep" width="1024" height="768" style="visibility:hidden;absolute;top:790px;left:100px;border:1px solid white;"></canvas>
 </body>
 
