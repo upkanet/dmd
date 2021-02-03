@@ -156,14 +156,14 @@
             ctxbg.stroke();
         }
 
-        ctxbg.fillStyle = "blue";
-        ctxbg.font = "12px Arial";
+        ctxbg.fillStyle = "#5555FF";
+        ctxbg.font = "20px Arial";
         for(var i = 0; i < 10; i++){
             ctxbg.fillText(i, i * w / 10 + 10, h/2 - 10);
         }
         for(var i = 0; i < 10; i++){
             var alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split('');
-            ctxbg.fillText(alphabet[i], w / 2 + 10, i * h / 10 + 20);
+            ctxbg.fillText(alphabet[i], w / 2 + 10, i * h / 10 + 25);
         }
         
     }

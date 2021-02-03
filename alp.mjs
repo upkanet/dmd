@@ -135,6 +135,7 @@ function playDMD() {
 
 function stopDMD(){
     axodmd.kill('SIGINT');
+    axodmd.kill('SIGINT');
 }
 
 
