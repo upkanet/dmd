@@ -192,14 +192,23 @@
         var imgData = canvas.getContext('2d').getImageData(0, 0, 1024, 768);
         cprep = document.getElementById('canprep');
         ctxprep = cprep.getContext("2d");
+
+        var r = Number(document.querySelector('#rotate').value);
+        var fH = document.querySelector('#flipH').checked;
+        var fV = document.querySelector('#flipV').checked;
+        console.log(r,fH,fV);
+
         createImageBitmap(imgData).then((imgBitmap) => {
-            ctxprep.translate(1024/2,720/2);
-            ctxprep.rotate(Math.PI / 2);
-            ctxprep.translate(-1024/2,-720/2);
+            ctxprep.clearRect(0,0,1024,768);
             //Mirror
-            ctxprep.translate(1024/2,720/2);
-            ctxprep.scale(-1,1);
+            ctxprep.translate((fH) ? 1024 : 0,(fV) ? 768 : 0);
+            ctxprep.scale((fH) ? -1 : 1,(fV) ? -1 : 1);
+            //Rotate
+            ctxprep.translate(1024/2,768/2);
+            ctxprep.rotate(Math.PI / 180 * r);
+            ctxprep.translate(-1024/2,-768/2);
             ctxprep.drawImage(imgBitmap,0,0);
+            ctxprep.resetTransform();
         })
 
 
@@ -229,6 +238,13 @@
         cursor: pointer;
         font-size:50px;
     }
+
+    #calib {
+        position: absolute;
+        top: 30px;
+        left: 1150px;
+        width: 150px;
+    }
 </style>
 
 <body onload="init()">
@@ -245,10 +261,16 @@
         <span onclick="move(-w/10,0)" title="Move Left"><i class="ri-arrow-left-line"></i></span>
         <span onclick="move(w/10,0)" title="Move Right"><i class="ri-arrow-right-line"></i></span>
         <span onclick="loadBin()" title="Load BIN from bin/flash.bin"><i class="ri-database-2-line"></i></span>
+        <span onclick="prep()"><i class="ri-image-line"></i></span>
     </div>
     <div id="editor">
         <canvas id="can" width="1024" height="768" style="position:absolute;top:0;left:0px;border:1px solid white;"></canvas>
         <canvas id="canbg" width="1024" height="768" style="position:absolute;top:0;left:0px;z-index:2;pointer-events: none;"></canvas>
+    </div>
+    <div id="calib">
+        <input id="rotate" type="text" placeholder="rotate">
+        <input type="checkbox" name="flipH" id="flipH"> Flip Horizontaly
+        <input type="checkbox" name="flipV" id="flipV"> Flip Verticaly
     </div>
     <input type="range" min="1" max="100" onclick="sizer(this)" style="position:absolute;top:20px;left:110px;">
     <canvas id="canprep" width="1024" height="768" style="position:absolute;top:790px;left:100px;border:1px solid white;"></canvas>
