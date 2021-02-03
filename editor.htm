@@ -84,8 +84,9 @@
         sw = sh = e.value;
     }
 
-    function load() {
-        var canvas = document.getElementById('can');
+    async function load() {
+        await prep();
+        var canvas = document.getElementById('canprep');
         var imageData = canvas.getContext('2d').getImageData(0, 0, 1024, 768);
         var u8a = new Uint8Array(imageData.data.buffer);
 
@@ -279,8 +280,8 @@
     </div>
     <div id="calib">
         <p>Calibration</p>
-        <input id="rotate" type="text" placeholder="rotate">
-        <input type="checkbox" name="flipH" id="flipH"> Flip Horizontaly
+        <input id="rotate" type="text" placeholder="rotate" value="90">
+        <input type="checkbox" name="flipH" id="flipH" checked="checked"> Flip Horizontaly
         <input type="checkbox" name="flipV" id="flipV"> Flip Verticaly
     </div>
     <input type="range" min="1" max="100" onclick="sizer(this)" style="position:absolute;top:20px;left:110px;">
