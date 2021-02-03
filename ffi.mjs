@@ -1,7 +1,8 @@
-import { ALP, ALPimage, loadBIN, playDMD, stopDMD } from './alp.mjs';
+import { ALP, ALPimage, loadBIN, playDMD, stopDMD, genVec } from './alp.mjs';
 import http from 'http';
 import open from 'open';
 import fs from 'fs';
+import { URL, URLSearchParams } from 'url';
 
 //var alp = new ALP();
 //alp.init();
@@ -41,6 +42,13 @@ http.createServer(async (req, res) => {
             }
             else if (req.url == '/stop') {
                 stopDMD();
+            }
+            else if (req.url.match('/genvec')) {
+                var u = new URL(req.url,'http://'+req.headers.host);
+                var nbFlash = u.searchParams.get('nbFlash') || 10;
+                var durFlash = u.searchParams.get('durFlash') || 100;
+                var perFlash = u.searchParams.get('perFlash') || 1000;
+                genVec(nbFlash,durFlash,perFlash);
             }
             else {
                 var d = fs.readFileSync(req.url.substr(1), 'utf-8');

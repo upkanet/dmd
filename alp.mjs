@@ -137,5 +137,22 @@ function stopDMD(){
     axodmd.kill('SIGINT');
 }
 
+function genVec(nbFlash = 10, durFlash = 100, perFlash = 1000){
+    //durFlash : duration in ms
+    //perFlash : period in ms
+    console.log("Gen VEC", nbFlash,"flashs for", durFlash,"ms, every",perFlash,"ms");
+    var vecFile = 'bin/flash.vec';
 
-export { ALP, ALPimage, loadBIN, playDMD, stopDMD };
+    fs.writeFileSync(vecFile, "0 "+nbFlash*2+" 0 0 0\n");
+    for(var i = 0;i < nbFlash;i++){
+        for(var j = 0; j < durFlash; j++){
+            fs.appendFileSync(vecFile, "0 1 0 0 1\n");
+        }
+        for(var j = durFlash; j < perFlash; j++){
+            fs.appendFileSync(vecFile, "0 2 0 0 2\n");
+        }
+    }
+}
+
+
+export { ALP, ALPimage, loadBIN, playDMD, stopDMD, genVec };

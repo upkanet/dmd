@@ -223,6 +223,15 @@
 
     }
 
+    function genvec(){
+        var nbFlash = document.querySelector('#nbFlash').value || 10;
+        var durFlash = document.querySelector('#durFlash').value || 100;
+        var perFlash = document.querySelector('#perFlash').value || 1000;
+        var xhr = new XMLHttpRequest();
+        xhr.open("GET", `/genvec?nbFlash=${nbFlash}&durFlash=${durFlash}&perFlash=${perFlash}`, false);
+        xhr.send();
+    }
+
 
 </script>
 <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
@@ -291,9 +300,10 @@
     </div>
     <div id="timing">
         <p>Timing</p>
-        <label for="flashDuration">flashDuration</label><input id="flashDuration" type="text">
-        <label for="flashPeriod">flashPeriod</label><input id="flashPeriod" type="text">
-        <label for="flashNumber">flashNumber</label><input id="flashNumber" type="text">
+        <label for="nbFlash">nbFlash</label><input id="nbFlash" type="text">
+        <label for="durFlash">durFlash</label><input id="durFlash" type="text">
+        <label for="perFlash">perFlash</label><input id="perFlash" type="text">
+        <input type="button" value="Gen VEC" onclick="genvec()">
     </div>
     <input type="range" min="1" max="100" onclick="sizer(this)" style="position:absolute;top:20px;left:110px;z-index: 3; width: 250px;">
     <canvas id="canprep" width="1024" height="768" style="visibility:hidden;absolute;top:790px;left:100px;border:1px solid white;"></canvas>
