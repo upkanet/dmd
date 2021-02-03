@@ -303,6 +303,24 @@
         margin-left:-25px;
         color: black;
     }
+
+    #odtable {
+        position: absolute;
+        border: 1px solid white;
+        top: 600px;
+        left: 1150px;
+        width: 200px;
+        padding: 10px;
+        border-radius: 25px;
+    }
+
+    #odtable table{
+        text-align: center;
+    }
+
+    #odtable thead{
+        font-weight: bold;
+    }
 </style>
 
 <body onload="init()">
@@ -325,18 +343,41 @@
             style="position:absolute;top:0;left:0px;z-index:2;pointer-events: none;"></canvas>
     </div>
     <div id="calib" class="cards">
-        <p>Calibration</p>
+        <h3>Calibration</h3>
         Rotate <input id="rotate" class="unitsi" type="text" placeholder="rotate" value="90" size="3"><span class="unitst">°</span><br>
         <input type="checkbox" name="flipH" id="flipH" checked="checked"> Flip Horizontaly<br>
         <input type="checkbox" name="flipV" id="flipV"> Flip Verticaly<br>
     </div>
     <div id="timing" class="cards">
-        <p>Timing</p>
-        <label for="nbFlash">Number of Flash</label><br><input id="nbFlash" class="unitsi" type="text" onchange="totFlash()" value="10" size="3"><span class="unitst">fl</span><br><br>
-        <label for="durFlash">Duration of Flash</label><br><input id="durFlash" class="unitsi" type="text" onchange="totFlash()" value="100" size="4"><span class="unitst">ms</span><br><br>
-        <label for="perFlash">Period of Flash</label><br><input id="perFlash" class="unitsi" type="text" onchange="totFlash()" value="1000" size="6"><span class="unitst">ms</span><br><br>
+        <h3>Timing</h3>
+        <label for="nbFlash"># Flash</label><br><input id="nbFlash" class="unitsi" type="text" onchange="totFlash()" value="10" size="3"><span class="unitst">#</span><br><br>
+        <label for="durFlash">Flash Duration</label><br><input id="durFlash" class="unitsi" type="text" onchange="totFlash()" value="100" size="4"><span class="unitst">ms</span><br><br>
+        <label for="perFlash">Next Flash</label><br><input id="perFlash" class="unitsi" type="text" onchange="totFlash()" value="1000" size="6"><span class="unitst">ms</span><br><br>
         <span id="totalFlash"></span><br><br>
         <button onclick="genvec()">Generate VEC</button>
+    </div>
+    <div id="odtable">
+        <table>
+            <thead>
+                <tr>
+                    <td>OD</td><td>% transmission</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>3</td><td>0.1%</td>
+                </tr>
+                <tr>
+                    <td>1</td><td>10%</td>
+                </tr>
+                <tr>
+                    <td>0.9</td><td>13%</td>
+                </tr>
+                <tr>
+                    <td>0.6</td><td>25%</td>
+                </tr>
+            </tbody>
+        </table>
     </div>
     <input type="range" min="1" max="100" onclick="sizer(this)" style="position:absolute;top:20px;left:110px;z-index: 3; width: 250px;">
     <canvas id="canprep" width="1024" height="768" style="visibility:hidden;absolute;top:790px;left:100px;border:1px solid white;"></canvas>
