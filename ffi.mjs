@@ -25,6 +25,10 @@ http.createServer(async (req, res) => {
                 var d = fs.readFileSync(req.url.substr(1));
                 res.write(d);
             }
+            else if (req.url == '/logo.png') {
+                var d = fs.readFileSync(req.url.substr(1));
+                res.write(d);
+            }
             else if (req.url == '/save') {
                 alpimg.save();
             }

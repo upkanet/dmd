@@ -1,5 +1,5 @@
 <html>
-    <title>Axorus - DMD driver</title>
+<title>Axorus - DMD driver</title>
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script type="text/javascript">
     var canvas, ctx, flag = false,
@@ -118,6 +118,14 @@
         ctx.fillRect(w / 2 + 1.5 * l, h / 2 + 1.5 * l, 2 * l, 2 * l);
     }
 
+    function logo() {
+        var image = new Image();
+        image.onload = function () {
+            ctx.drawImage(image, 0, 0);
+        };
+        image.src="logo.png";
+    }
+
 
     function move(dx, dy) {
         var id = ctx.getImageData(0, 0, 1024, 768);
@@ -142,53 +150,53 @@
         ctxbg = cbg.getContext("2d");
         ctxbg.strokeStyle = "blue";
 
-        for(var i = 1; i < 10; i++){
+        for (var i = 1; i < 10; i++) {
             ctxbg.beginPath();
-            ctxbg.moveTo(i*w/10, 1);
-            ctxbg.lineTo(i*w/10, h);
+            ctxbg.moveTo(i * w / 10, 1);
+            ctxbg.lineTo(i * w / 10, h);
             ctxbg.stroke();
         }
 
-        for(var i = 1; i < 10; i++){
+        for (var i = 1; i < 10; i++) {
             ctxbg.beginPath();
-            ctxbg.moveTo(1, i*h/10);
-            ctxbg.lineTo(w, i*h/10);
+            ctxbg.moveTo(1, i * h / 10);
+            ctxbg.lineTo(w, i * h / 10);
             ctxbg.stroke();
         }
 
         ctxbg.fillStyle = "#5555FF";
         ctxbg.font = "20px Arial";
-        for(var i = 0; i < 10; i++){
-            ctxbg.fillText(i, i * w / 10 + 10, h/2 - 10);
+        for (var i = 0; i < 10; i++) {
+            ctxbg.fillText(i, i * w / 10 + 10, h / 2 - 10);
         }
-        for(var i = 0; i < 10; i++){
+        for (var i = 0; i < 10; i++) {
             var alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split('');
             ctxbg.fillText(alphabet[i], w / 2 + 10, i * h / 10 + 25);
         }
-        
+
     }
 
     var eraser = false;
 
-    function toggleEraser(o){
+    function toggleEraser(o) {
         var col = "";
-        eraser=!eraser;
-        if(eraser){
+        eraser = !eraser;
+        if (eraser) {
             col = "blue";
         }
-        $(o).css('color',col);
+        $(o).css('color', col);
     }
 
-    function play(){
+    function play() {
         save();
         $.getJSON("/play");
     }
 
-    function stop(){
+    function stop() {
         $.getJSON("/stop");
     }
 
-    function prep(){
+    function prep() {
         var imgData = canvas.getContext('2d').getImageData(0, 0, 1024, 768);
         cprep = document.getElementById('canprep');
         ctxprep = cprep.getContext("2d");
@@ -196,18 +204,18 @@
         var r = Number(document.querySelector('#rotate').value);
         var fH = document.querySelector('#flipH').checked;
         var fV = document.querySelector('#flipV').checked;
-        console.log(r,fH,fV);
+        console.log(r, fH, fV);
 
         createImageBitmap(imgData).then((imgBitmap) => {
-            ctxprep.clearRect(0,0,1024,768);
+            ctxprep.clearRect(0, 0, 1024, 768);
             //Mirror
-            ctxprep.translate((fH) ? 1024 : 0,(fV) ? 768 : 0);
-            ctxprep.scale((fH) ? -1 : 1,(fV) ? -1 : 1);
+            ctxprep.translate((fV) ? 1024 : 0, (fH) ? 768 : 0);
+            ctxprep.scale((fV) ? -1 : 1, (fH) ? -1 : 1);
             //Rotate
-            ctxprep.translate(1024/2,768/2);
+            ctxprep.translate(1024 / 2, 768 / 2);
             ctxprep.rotate(Math.PI / 180 * r);
-            ctxprep.translate(-1024/2,-768/2);
-            ctxprep.drawImage(imgBitmap,0,0);
+            ctxprep.translate(-1024 / 2, -768 / 2);
+            ctxprep.drawImage(imgBitmap, 0, 0);
             ctxprep.resetTransform();
         })
 
@@ -225,18 +233,18 @@
 
     #editor {
         position: absolute;
-        top:0px;
-        left:100px;
+        top: 0px;
+        left: 100px;
     }
 
     #menu {
         width: 100px;
     }
 
-    #menu>span{
+    #menu>span {
         padding-left: 15px;
         cursor: pointer;
-        font-size:50px;
+        font-size: 50px;
     }
 
     #calib {
@@ -255,7 +263,7 @@
         <span onclick="toggleEraser(this)" title="Eraser"><i class="ri-eraser-line"></i></span>
         <span onclick="save()" title="Save BIN to bin/flash.bin"><i class="ri-save-3-line"></i></span>
         <span onclick="fullframe()" title="Fullframe"><i class="ri-sun-line"></i></span>
-        <span onclick="centerCross()" title="Draw Center Cross for reference"><i class="ri-focus-3-line"></i></span>
+        <span onclick="logo()" title="Draw Center Cross for reference"><i class="ri-focus-3-line"></i></span>
         <span onclick="move(0,-h/10)" title="Move Up"><i class="ri-arrow-up-line"></i></span>
         <span onclick="move(0,h/10)" title="Move Down"><i class="ri-arrow-down-line"></i></span>
         <span onclick="move(-w/10,0)" title="Move Left"><i class="ri-arrow-left-line"></i></span>
@@ -264,16 +272,20 @@
         <span onclick="prep()"><i class="ri-image-line"></i></span>
     </div>
     <div id="editor">
-        <canvas id="can" width="1024" height="768" style="position:absolute;top:0;left:0px;border:1px solid white;"></canvas>
-        <canvas id="canbg" width="1024" height="768" style="position:absolute;top:0;left:0px;z-index:2;pointer-events: none;"></canvas>
+        <canvas id="can" width="1024" height="768"
+            style="position:absolute;top:0;left:0px;border:1px solid white;"></canvas>
+        <canvas id="canbg" width="1024" height="768"
+            style="position:absolute;top:0;left:0px;z-index:2;pointer-events: none;"></canvas>
     </div>
     <div id="calib">
+        <p>Calibration</p>
         <input id="rotate" type="text" placeholder="rotate">
         <input type="checkbox" name="flipH" id="flipH"> Flip Horizontaly
         <input type="checkbox" name="flipV" id="flipV"> Flip Verticaly
     </div>
     <input type="range" min="1" max="100" onclick="sizer(this)" style="position:absolute;top:20px;left:110px;">
-    <canvas id="canprep" width="1024" height="768" style="position:absolute;top:790px;left:100px;border:1px solid white;"></canvas>
+    <canvas id="canprep" width="1024" height="768"
+        style="position:absolute;top:790px;left:100px;border:1px solid white;"></canvas>
 </body>
 
 </html>
