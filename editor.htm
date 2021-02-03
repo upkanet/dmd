@@ -223,10 +223,19 @@
 
     }
 
+    function totFlash(){
+        var nbFlash = document.querySelector('#nbFlash').value || 10;
+        var perFlash = document.querySelector('#perFlash').value || 1000;
+        document.querySelector('#totalFlash').innerText = "Total : " + Math.round(perFlash * nbFlash / 1000) + " sec";
+    }
+
     function genvec(){
         var nbFlash = document.querySelector('#nbFlash').value || 10;
         var durFlash = document.querySelector('#durFlash').value || 100;
         var perFlash = document.querySelector('#perFlash').value || 1000;
+
+        totFlash();
+
         var xhr = new XMLHttpRequest();
         xhr.open("GET", `/genvec?nbFlash=${nbFlash}&durFlash=${durFlash}&perFlash=${perFlash}`, false);
         xhr.send();
@@ -259,17 +268,40 @@
     }
 
     #calib {
-        position: absolute;
         top: 30px;
-        left: 1150px;
-        width: 150px;
     }
 
     #timing {
-        position: absolute;
         top: 200px;
+    }
+
+    .cards {
+        position: absolute;
         left: 1150px;
-        width: 150px;
+        width: 200px;
+        background-color: #303030;
+        padding: 15px;
+        border-radius: 25px;
+    }
+
+    .cards > button {
+        border-radius: 10px;
+        padding: 7px;
+        border: 1px solid white;
+        color: white;
+        background-color: black;
+    }
+
+    .unitsi {
+        text-align:right;
+        border-radius: 10px;
+        border: 1px solid black;
+        padding: 5px 30px 5px 5px;
+    }
+
+    .unitst {
+        margin-left:-25px;
+        color: black;
     }
 </style>
 
@@ -292,18 +324,19 @@
         <canvas id="canbg" width="1024" height="768"
             style="position:absolute;top:0;left:0px;z-index:2;pointer-events: none;"></canvas>
     </div>
-    <div id="calib">
+    <div id="calib" class="cards">
         <p>Calibration</p>
-        <input id="rotate" type="text" placeholder="rotate" value="90">
-        <input type="checkbox" name="flipH" id="flipH" checked="checked"> Flip Horizontaly
-        <input type="checkbox" name="flipV" id="flipV"> Flip Verticaly
+        Rotate <input id="rotate" class="unitsi" type="text" placeholder="rotate" value="90" size="3"><span class="unitst">°</span><br>
+        <input type="checkbox" name="flipH" id="flipH" checked="checked"> Flip Horizontaly<br>
+        <input type="checkbox" name="flipV" id="flipV"> Flip Verticaly<br>
     </div>
-    <div id="timing">
+    <div id="timing" class="cards">
         <p>Timing</p>
-        <label for="nbFlash">nbFlash</label><input id="nbFlash" type="text">
-        <label for="durFlash">durFlash</label><input id="durFlash" type="text">
-        <label for="perFlash">perFlash</label><input id="perFlash" type="text">
-        <input type="button" value="Gen VEC" onclick="genvec()">
+        <label for="nbFlash">Number of Flash</label><br><input id="nbFlash" class="unitsi" type="text" onchange="totFlash()" value="10" size="3"><span class="unitst">fl</span><br><br>
+        <label for="durFlash">Duration of Flash</label><br><input id="durFlash" class="unitsi" type="text" onchange="totFlash()" value="100" size="4"><span class="unitst">ms</span><br><br>
+        <label for="perFlash">Period of Flash</label><br><input id="perFlash" class="unitsi" type="text" onchange="totFlash()" value="1000" size="6"><span class="unitst">ms</span><br><br>
+        <span id="totalFlash"></span><br><br>
+        <button onclick="genvec()">Generate VEC</button>
     </div>
     <input type="range" min="1" max="100" onclick="sizer(this)" style="position:absolute;top:20px;left:110px;z-index: 3; width: 250px;">
     <canvas id="canprep" width="1024" height="768" style="visibility:hidden;absolute;top:790px;left:100px;border:1px solid white;"></canvas>
