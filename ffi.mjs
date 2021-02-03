@@ -8,7 +8,10 @@ import fs from 'fs';
 var data = [];
 var alpimg;
 
-open('http://localhost:8080/');
+var opbrowser = (process.argv.length > 2) && (process.argv[2] == "o");
+if(opbrowser){
+    open('http://localhost:8080/');
+}
 http.createServer(async (req, res) => {
     try {
         console.log(req.method);
