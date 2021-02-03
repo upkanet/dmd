@@ -7,9 +7,22 @@
 #include "alp.h"
 #include <iostream>
 #include <string>
+#include <csignal>
+
+void signalHandler( int signum ) {
+   std::cout << "Interrupt signal (" << signum << ") received.\n";
+
+   // cleanup and close up stuff here  
+   // terminate program  
+
+   exit(signum);  
+}
 
 int main(int argc, const char **argv)
 {
+	//Register Signal handler
+	signal(SIGINT, signalHandler);
+
 	ALP_ID nDevId, nSeqId1, nSeqId2;
 	long nDmdType, nSizeX, nSizeY;
 	long nReturn;
