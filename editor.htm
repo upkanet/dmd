@@ -230,6 +230,7 @@
     body {
         color: white;
         background-color: black;
+        font-family: Arial, Helvetica, sans-serif;
     }
 
     #editor {
@@ -262,15 +263,12 @@
         <span onclick="stop()" title="Stop equence on Microscope"><i class="ri-stop-circle-line"></i></span>
         <span onclick="erase()" title="Clear image"><i class="ri-delete-bin-line"></i></span>
         <span onclick="toggleEraser(this)" title="Eraser"><i class="ri-eraser-line"></i></span>
-        <span onclick="save()" title="Save BIN to bin/flash.bin"><i class="ri-save-3-line"></i></span>
         <span onclick="fullframe()" title="Fullframe"><i class="ri-sun-line"></i></span>
         <span onclick="logo()" title="Draw Center Cross for reference"><i class="ri-focus-3-line"></i></span>
         <span onclick="move(0,-h/10)" title="Move Up"><i class="ri-arrow-up-line"></i></span>
         <span onclick="move(0,h/10)" title="Move Down"><i class="ri-arrow-down-line"></i></span>
         <span onclick="move(-w/10,0)" title="Move Left"><i class="ri-arrow-left-line"></i></span>
         <span onclick="move(w/10,0)" title="Move Right"><i class="ri-arrow-right-line"></i></span>
-        <span onclick="loadBin()" title="Load BIN from bin/flash.bin"><i class="ri-database-2-line"></i></span>
-        <span onclick="prep()"><i class="ri-image-line"></i></span>
     </div>
     <div id="editor">
         <canvas id="can" width="1024" height="768"
