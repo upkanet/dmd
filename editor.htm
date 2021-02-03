@@ -188,6 +188,23 @@
         $.getJSON("/stop");
     }
 
+    function prep(){
+        var imgData = canvas.getContext('2d').getImageData(0, 0, 1024, 768);
+        cprep = document.getElementById('canprep');
+        ctxprep = cprep.getContext("2d");
+        createImageBitmap(imgData).then((imgBitmap) => {
+            ctxprep.translate(1024/2,720/2);
+            ctxprep.rotate(Math.PI / 2);
+            ctxprep.translate(-1024/2,-720/2);
+            //Mirror
+            ctxprep.translate(1024/2,720/2);
+            ctxprep.scale(-1,1);
+            ctxprep.drawImage(imgBitmap,0,0);
+        })
+
+
+    }
+
 
 </script>
 <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
@@ -233,7 +250,8 @@
         <canvas id="can" width="1024" height="768" style="position:absolute;top:0;left:0px;border:1px solid white;"></canvas>
         <canvas id="canbg" width="1024" height="768" style="position:absolute;top:0;left:0px;z-index:2;pointer-events: none;"></canvas>
     </div>
-    <input type="range" min="1" max="200" onclick="sizer(this)" style="position:absolute;top:20px;left:110px;">
+    <input type="range" min="1" max="100" onclick="sizer(this)" style="position:absolute;top:20px;left:110px;">
+    <canvas id="canprep" width="1024" height="768" style="position:absolute;top:790px;left:100px;border:1px solid white;"></canvas>
 </body>
 
 </html>
