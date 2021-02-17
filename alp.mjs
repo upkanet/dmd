@@ -134,7 +134,9 @@ function playDMD() {
 }
 
 function stopDMD(){
-    axodmd.kill('SIGINT');
+    if(axodmd !== undefined){
+        axodmd.kill('SIGINT');
+    }
 }
 
 function genVec(nbFlash = 10, durFlash = 100, perFlash = 1000){
