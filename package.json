@@ -2,7 +2,7 @@
   "name": "dmd",
   "version": "1.0.0",
   "description": "ALP4 DMD interface",
-  "main": "index.js",
+  "main": "app.mjs",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
