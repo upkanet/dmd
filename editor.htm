@@ -232,9 +232,9 @@
     }
 
     function totFlash(){
-        var nbFlash = document.querySelector('#nbFlash').value || 10;
-        var durFlash = document.querySelector('#durFlash').value || 100;
-        var perFlash = document.querySelector('#perFlash').value || 1000;
+        var nbFlash = Number(document.querySelector('#nbFlash').value) || 10;
+        var durFlash = Number(document.querySelector('#durFlash').value) || 100;
+        var perFlash = Number(document.querySelector('#perFlash').value) || 1000;
         if(durFlash<perFlash){
             document.querySelector('#totalFlash').innerText = "Total : " + Math.round(perFlash * nbFlash / 1000) + " sec";
         }
