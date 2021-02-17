@@ -95,8 +95,8 @@
         xhr.send(u8a);
     }
 
-    function save() {
-        load();
+    async function save() {
+        await load();
         var xhr = new XMLHttpRequest();
         xhr.open("GET", '/save', false);
         xhr.send();
@@ -188,8 +188,8 @@
         $(o).css('color', col);
     }
 
-    function play() {
-        save();
+    async function play() {
+        await save();
         $.getJSON("/play");
     }
 
