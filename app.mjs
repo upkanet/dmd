@@ -2,10 +2,8 @@ import { ALPimage, loadBIN, playDMD, stopDMD, genVec } from './alp.mjs';
 import http from 'http';
 import open from 'open';
 import fs from 'fs';
-import { URL, URLSearchParams } from 'url';
+import { URL } from 'url';
 
-//var alp = new ALP();
-//alp.init();
 var data = [];
 var alpimg;
 
@@ -13,6 +11,7 @@ var opbrowser = (process.argv.length > 2) && (process.argv[2] == "o");
 if(opbrowser){
     open('http://localhost:8080/');
 }
+console.log("Server available at http://localhost:8080/");
 http.createServer(async (req, res) => {
     try {
         console.log(req.method);
