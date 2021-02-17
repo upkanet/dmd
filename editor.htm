@@ -124,7 +124,8 @@
     function logo() {
         var image = new Image();
         image.onload = function () {
-            ctx.drawImage(image, 0, 0);
+            var factor = 0.7;
+            ctx.drawImage(image, 0, 0,image.width * factor, image.height * factor);
         };
         image.src="logo.png";
     }
@@ -192,13 +193,14 @@
 
     async function play() {
         log('Play - loading...');
+        await stop();
         await save();
         await genvec();
         $.getJSON("/play");
         clearLog();
     }
 
-    function stop() {
+    async function stop() {
         $.getJSON("/stop");
     }
 
@@ -369,10 +371,10 @@
         <span onclick="toggleEraser(this)" title="Eraser"><i class="ri-eraser-line"></i></span>
         <span onclick="fullframe()" title="Fullframe"><i class="ri-sun-line"></i></span>
         <span onclick="logo()" title="Draw Center Cross for reference"><i class="ri-focus-3-line"></i></span>
-        <span onclick="move(0,-h/10)" title="Move Up"><i class="ri-arrow-up-line"></i></span>
-        <span onclick="move(0,h/10)" title="Move Down"><i class="ri-arrow-down-line"></i></span>
-        <span onclick="move(-w/10,0)" title="Move Left"><i class="ri-arrow-left-line"></i></span>
-        <span onclick="move(w/10,0)" title="Move Right"><i class="ri-arrow-right-line"></i></span>
+        <span onclick="move(0,-h/20)" title="Move Up"><i class="ri-arrow-up-line"></i></span>
+        <span onclick="move(0,h/20)" title="Move Down"><i class="ri-arrow-down-line"></i></span>
+        <span onclick="move(-w/20,0)" title="Move Left"><i class="ri-arrow-left-line"></i></span>
+        <span onclick="move(w/20,0)" title="Move Right"><i class="ri-arrow-right-line"></i></span>
     </div>
     <div id="editor">
         <canvas id="can" width="1024" height="768"
@@ -389,8 +391,8 @@
     </div>
     <div id="timing" class="cards">
         <h3>Timing</h3>
-        <label for="nbFlash"># Flash</label><br><input id="nbFlash" class="unitsi" type="text" onchange="totFlash()" value="10" size="3"><span class="unitst">#</span><br><br>
-        <label for="durFlash">Flash Duration</label><br><input id="durFlash" class="unitsi" type="text" onchange="totFlash()" value="100" size="4"><span class="unitst">ms</span><br><br>
+        <label for="nbFlash"># Flash</label><br><input id="nbFlash" class="unitsi" type="text" onchange="totFlash()" value="1" size="3"><span class="unitst">#</span><br><br>
+        <label for="durFlash">Flash Duration</label><br><input id="durFlash" class="unitsi" type="text" onchange="totFlash()" value="1000" size="4"><span class="unitst">ms</span><br><br>
         <label for="perFlash">Next Flash</label><br><input id="perFlash" class="unitsi" type="text" onchange="totFlash()" value="1000" size="6"><span class="unitst">ms</span><br><br>
         <span id="totalFlash"></span><br><br>
         <button onclick="continuous();">Continuous</button>
@@ -421,5 +423,4 @@
     <input type="range" min="1" max="100" onclick="sizer(this)" style="position:absolute;top:20px;left:110px;z-index: 3; width: 250px;">
     <canvas id="canprep" width="1024" height="768" style="visibility:hidden;absolute;top:790px;left:100px;border:1px solid white;"></canvas>
 </body>
-
 </html>
