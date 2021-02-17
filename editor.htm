@@ -272,6 +272,13 @@
         log('&nbsp;');
     }
 
+    function lux(){
+        var srcPw = document.querySelector('#srcPw').value;
+        var srcFilter = document.querySelector('#srcFilter').value;
+        var l = 1100000 * srcPw/100 * Math.pow(10,-1*srcFilter);
+        document.querySelector('#lux').innerText = Math.round(l)+" lux";
+    }
+
 
 </script>
 <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
@@ -363,7 +370,7 @@
     }
 </style>
 
-<body onload="init();totFlash();">
+<body onload="init();totFlash();lux();">
     <div id="menu">
         <span onclick="play()" title="Play on Microscope"><i class="ri-microscope-line"></i></span>
         <span onclick="stop()" title="Stop equence on Microscope"><i class="ri-stop-circle-line"></i></span>
@@ -398,27 +405,9 @@
         <button onclick="continuous();">Continuous</button>
     </div>
     <div id="odtable">
-        <table>
-            <thead>
-                <tr>
-                    <td>OD</td><td>% transmission</td>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>3</td><td>0.1%</td>
-                </tr>
-                <tr>
-                    <td>1</td><td>10%</td>
-                </tr>
-                <tr>
-                    <td>0.9</td><td>13%</td>
-                </tr>
-                <tr>
-                    <td>0.6</td><td>25%</td>
-                </tr>
-            </tbody>
-        </table>
+        <label for="srcPw">Source Power</label><br><input id="srcPw" class="unitsi" type="text" onchange="lux();" value="10" size="3"><span class="unitst">%</span><br><br>
+        <label for="srcFilter">Filter</label><br><input id="srcFilter" class="unitsi" type="text" onchange="lux();" value="3" size="3"><span class="unitst">od</span><br><br>
+        Illuminance : <span id="lux">0 lux</span>
     </div>
     <input type="range" min="1" max="100" onclick="sizer(this)" style="position:absolute;top:20px;left:110px;z-index: 3; width: 250px;">
     <canvas id="canprep" width="1024" height="768" style="visibility:hidden;absolute;top:790px;left:100px;border:1px solid white;"></canvas>
