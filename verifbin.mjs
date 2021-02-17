@@ -23,7 +23,7 @@ u8a.forEach((e) => {
 
 console.log(k, k/1024);
 */
-var buff = fs.readFileSync('bin/flash_toutImplant.bin');
+var buff = fs.readFileSync('bin/flash.bin');
 var u8a = new Uint8Array(buff);
 var a = [];
 var b = [];
@@ -52,4 +52,4 @@ var imAbuff = new Uint8Array(a);
 var imBbuff = new Uint8Array(b);
 
 var ja = new Jimp({data: imBbuff, width:1024, height: 768});
-ja.write('test.png');
+ja.write('bin/flash.png');

@@ -1,4 +1,4 @@
-import { ALP, ALPimage, loadBIN, playDMD, stopDMD, genVec } from './alp.mjs';
+import { ALPimage, loadBIN, playDMD, stopDMD, genVec } from './alp.mjs';
 import http from 'http';
 import open from 'open';
 import fs from 'fs';
