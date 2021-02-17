@@ -86,6 +86,7 @@
 
     async function load() {
         await prep();
+        log('Load');
         var canvas = document.getElementById('canprep');
         var imageData = canvas.getContext('2d').getImageData(0, 0, 1024, 768);
         var u8a = new Uint8Array(imageData.data.buffer);
@@ -97,6 +98,7 @@
 
     async function save() {
         await load();
+        log('Save');
         var xhr = new XMLHttpRequest();
         xhr.open("GET", '/save', false);
         xhr.send();
@@ -189,8 +191,11 @@
     }
 
     async function play() {
+        log('Play - loading...');
         await save();
+        await genvec();
         $.getJSON("/play");
+        clearLog();
     }
 
     function stop() {
@@ -198,6 +203,7 @@
     }
 
     function prep() {
+        log('Prep');
         var imgData = canvas.getContext('2d').getImageData(0, 0, 1024, 768);
         cprep = document.getElementById('canprep');
         ctxprep = cprep.getContext("2d");
@@ -225,11 +231,18 @@
 
     function totFlash(){
         var nbFlash = document.querySelector('#nbFlash').value || 10;
+        var durFlash = document.querySelector('#durFlash').value || 100;
         var perFlash = document.querySelector('#perFlash').value || 1000;
-        document.querySelector('#totalFlash').innerText = "Total : " + Math.round(perFlash * nbFlash / 1000) + " sec";
+        if(durFlash<perFlash){
+            document.querySelector('#totalFlash').innerText = "Total : " + Math.round(perFlash * nbFlash / 1000) + " sec";
+        }
+        else{
+            document.querySelector('#totalFlash').innerText = "Total : ∞ sec";
+        }
     }
 
-    function genvec(){
+    async function genvec(){
+        log('GenVec');
         var nbFlash = document.querySelector('#nbFlash').value || 10;
         var durFlash = document.querySelector('#durFlash').value || 100;
         var perFlash = document.querySelector('#perFlash').value || 1000;
@@ -239,6 +252,22 @@
         var xhr = new XMLHttpRequest();
         xhr.open("GET", `/genvec?nbFlash=${nbFlash}&durFlash=${durFlash}&perFlash=${perFlash}`, false);
         xhr.send();
+    }
+
+    function continuous(){
+        document.querySelector('#nbFlash').value = 1;
+        document.querySelector('#durFlash').value = 1000;
+        document.querySelector('#perFlash').value = 1000;
+        totFlash();
+    }
+
+    function log(msg){
+        var c = document.querySelector('#console');
+        c.innerHTML = msg;
+    }
+
+    function clearLog(){
+        log('&nbsp;');
     }
 
 
@@ -267,12 +296,17 @@
         font-size: 50px;
     }
 
-    #calib {
+    #console {
         top: 30px;
+        background-color: blue;
+    }
+
+    #calib {
+        top: 90px;
     }
 
     #timing {
-        top: 200px;
+        top: 238px;
     }
 
     .cards {
@@ -282,6 +316,10 @@
         background-color: #303030;
         padding: 15px;
         border-radius: 25px;
+    }
+
+    .cards > h3 {
+        margin-top: 5px;
     }
 
     .cards > button {
@@ -307,7 +345,7 @@
     #odtable {
         position: absolute;
         border: 1px solid white;
-        top: 600px;
+        top: 620px;
         left: 1150px;
         width: 200px;
         padding: 10px;
@@ -323,7 +361,7 @@
     }
 </style>
 
-<body onload="init()">
+<body onload="init();totFlash();">
     <div id="menu">
         <span onclick="play()" title="Play on Microscope"><i class="ri-microscope-line"></i></span>
         <span onclick="stop()" title="Stop equence on Microscope"><i class="ri-stop-circle-line"></i></span>
@@ -342,6 +380,7 @@
         <canvas id="canbg" width="1024" height="768"
             style="position:absolute;top:0;left:0px;z-index:2;pointer-events: none;"></canvas>
     </div>
+    <div id="console" class="cards">&nbsp;</div>
     <div id="calib" class="cards">
         <h3>Calibration</h3>
         Rotate <input id="rotate" class="unitsi" type="text" placeholder="rotate" value="90" size="3"><span class="unitst">°</span><br>
@@ -354,7 +393,7 @@
         <label for="durFlash">Flash Duration</label><br><input id="durFlash" class="unitsi" type="text" onchange="totFlash()" value="100" size="4"><span class="unitst">ms</span><br><br>
         <label for="perFlash">Next Flash</label><br><input id="perFlash" class="unitsi" type="text" onchange="totFlash()" value="1000" size="6"><span class="unitst">ms</span><br><br>
         <span id="totalFlash"></span><br><br>
-        <button onclick="genvec()">Generate VEC</button>
+        <button onclick="continuous();">Continuous</button>
     </div>
     <div id="odtable">
         <table>
