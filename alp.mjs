@@ -95,8 +95,12 @@ function stopDMD(){
 }
 
 function genVec(nbFlash = 10, durFlash = 100, perFlash = 1000){
+    //nbFlash : number of Flash
     //durFlash : duration in ms
     //perFlash : period in ms
+    nbFlash = Number(nbFlash);
+    durFlash = Number(durFlash);
+    perFlash = Number(perFlash);
     console.log("Gen VEC", nbFlash,"flashs for", durFlash,"ms, every",perFlash,"ms");
     var vecFile = 'bin/flash.vec';
 
@@ -105,7 +109,7 @@ function genVec(nbFlash = 10, durFlash = 100, perFlash = 1000){
         for(var j = 0; j < durFlash; j++){
             fs.appendFileSync(vecFile, "0 1 0 0 1\n");
         }
-        for(var j = durFlash; j < perFlash; j++){
+        for(j = durFlash; j < perFlash; j++){
             fs.appendFileSync(vecFile, "0 2 0 0 2\n");
         }
     }
