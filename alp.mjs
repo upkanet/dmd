@@ -113,6 +113,7 @@ function genVec(nbFlash = 10, durFlash = 100, perFlash = 1000){
             fs.appendFileSync(vecFile, "0 2 0 0 2\n");
         }
     }
+    console.log(".vec ready");
 }
 
 
