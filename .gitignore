@@ -104,10 +104,8 @@ dist
 .tern-port
 
 # Working files
-ALP4lib-master/
 bin/*
 !bin/.gitignore
-build/
 *.m
 *.bin
 *.hex
