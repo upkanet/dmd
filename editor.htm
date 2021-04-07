@@ -124,8 +124,7 @@
     function logo() {
         var image = new Image();
         image.onload = function () {
-            var factor = 0.7;
-            ctx.drawImage(image, 150, 275,image.width * factor, image.height * factor);
+            ctx.drawImage(image, 0, 0,image.width, image.height);
         };
         image.src="logo.png";
     }
@@ -318,6 +317,20 @@
         }
     }
 
+    function debugImg(){
+        canvas = document.getElementById('can');
+        ctx = canvas.getContext("2d");
+
+        var id = ctx.getImageData(0,0,canvas.width,canvas.height);
+        var k =0;
+        id.data.forEach(function(v,i){          
+            if(v > 0 && v < 255){
+                console.log(i%4, i/4,v);
+                k++;
+            }
+        });
+        console.log("Total",k);
+    }
 
 
 </script>
