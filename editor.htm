@@ -278,6 +278,20 @@
         document.querySelector('#lux').innerText = Math.round(l)+" lux";
     }
 
+    function invert(){
+        canvas = document.getElementById('can');
+        ctx = canvas.getContext("2d");
+
+        var id = ctx.getImageData(0,0,canvas.width,canvas.height);
+        var d = id.data;
+        var nid = ctx.createImageData(canvas.width,canvas.height);
+        var nd = nid.data;
+        for(var i = 0; i < nd.length;i++){
+            if(d[i]==255) nd[i]=0;
+            else nd[i]=255;
+        }
+        ctx.putImageData(nid,0,0);
+    }
 
 </script>
 <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
@@ -376,6 +390,7 @@
         <span onclick="erase()" title="Clear image"><i class="ri-delete-bin-line"></i></span>
         <span onclick="toggleEraser(this)" title="Eraser"><i class="ri-eraser-line"></i></span>
         <span onclick="fullframe()" title="Fullframe"><i class="ri-sun-line"></i></span>
+        <span onclick="invert()" title="Fullframe"><i class="ri-contrast-fill"></i></span>
         <span onclick="logo()" title="Draw Center Cross for reference"><i class="ri-focus-3-line"></i></span>
         <span onclick="move(0,-h/20)" title="Move Up"><i class="ri-arrow-up-line"></i></span>
         <span onclick="move(0,h/20)" title="Move Down"><i class="ri-arrow-down-line"></i></span>
