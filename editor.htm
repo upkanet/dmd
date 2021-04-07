@@ -1,7 +1,7 @@
 <html>
 <title>Axorus - DMD driver</title>
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-<script type="text/javascript">
+<script type="text/javascript" defer>
     var canvas, ctx, flag = false,
         prevX = 0,
         currX = 0,
@@ -293,6 +293,33 @@
         ctx.putImageData(nid,0,0);
     }
 
+    function saveAsImg(){
+        canvas = document.getElementById('can');
+        var link = document.createElement('a');
+        link.download = 'download.png';
+        link.href = canvas.toDataURL();
+        link.click();
+        link.delete;
+    }
+
+    function loadImg(){
+        var input = document.getElementById('file_input');
+        canvas = document.getElementById('can');
+        ctx = canvas.getContext("2d");
+
+        var URL = window.webkitURL || window.URL;
+        var url = URL.createObjectURL(input.files[0]);
+        var img = new Image();
+        img.src = url;
+        img.onload = function() {
+                img_width = img.width;
+                img_height = img.height;
+                ctx.drawImage(img, 0, 0, img_width, img_height);
+        }
+    }
+
+
+
 </script>
 <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
 <style>
@@ -324,11 +351,15 @@
     }
 
     #calib {
-        top: 90px;
+        top: 145px;
     }
 
     #timing {
-        top: 238px;
+        top: 292px;
+    }
+
+    #pngload{
+        top:90px;
     }
 
     .cards {
@@ -367,7 +398,7 @@
     #odtable {
         position: absolute;
         border: 1px solid white;
-        top: 586px;
+        top: 628px;
         left: 1150px;
         width: 200px;
         padding: 10px;
@@ -386,11 +417,12 @@
 <body onload="init();totFlash();lux();">
     <div id="menu">
         <span onclick="play()" title="Play on Microscope"><i class="ri-microscope-line"></i></span>
+        <span onclick="saveAsImg()" title="Save as Image"><i class="ri-save-3-fill"></i></span>
         <span onclick="stop()" title="Stop equence on Microscope"><i class="ri-stop-circle-line"></i></span>
         <span onclick="erase()" title="Clear image"><i class="ri-delete-bin-line"></i></span>
         <span onclick="toggleEraser(this)" title="Eraser"><i class="ri-eraser-line"></i></span>
         <span onclick="fullframe()" title="Fullframe"><i class="ri-sun-line"></i></span>
-        <span onclick="invert()" title="Fullframe"><i class="ri-contrast-fill"></i></span>
+        <span onclick="invert()" title="Invert Image"><i class="ri-contrast-fill"></i></span>
         <span onclick="logo()" title="Draw Center Cross for reference"><i class="ri-focus-3-line"></i></span>
         <span onclick="move(0,-h/20)" title="Move Up"><i class="ri-arrow-up-line"></i></span>
         <span onclick="move(0,h/20)" title="Move Down"><i class="ri-arrow-down-line"></i></span>
@@ -404,6 +436,9 @@
             style="position:absolute;top:0;left:0px;z-index:2;pointer-events: none;"></canvas>
     </div>
     <div id="console" class="cards">Axorus DMD Driver</div>
+    <div id="pngload" class="cards">
+        <input type="file" id="file_input" onchange="loadImg()">
+    </div>
     <div id="calib" class="cards">
         <h3>Calibration</h3>
         Rotate <input id="rotate" class="unitsi" type="text" placeholder="rotate" value="90" size="3"><span class="unitst">°</span><br>
