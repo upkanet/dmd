@@ -332,6 +332,16 @@
         console.log("Total",k);
     }
 
+    function easter() {
+        canvas = document.getElementById('can');
+        ctx = canvas.getContext("2d");
+        var imge = new Image();
+        imge.src="easter.png";
+        imge.onload = function () {
+            ctx.drawImage(imge, 0, 0,imge.width, imge.height);
+        };
+    }
+
 
 </script>
 <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
