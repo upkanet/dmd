@@ -342,6 +342,20 @@
         };
     }
 
+    document.addEventListener('keypress', logKey);
+    var goEaster = false;
+    function logKey(e){
+        if(e.code == "KeyJ"){
+            goEaster = true;
+        }
+        else if(goEaster && e.code == "KeyD"){
+            easter();
+        }
+        else{
+            goEaster = false;
+        }
+    }
+
 
 </script>
 <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
