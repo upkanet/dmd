@@ -102,17 +102,20 @@ function genVec(nbFlash = 10, durFlash = 100, perFlash = 1000){
     durFlash = Number(durFlash);
     perFlash = Number(perFlash);
     console.log("Gen VEC", nbFlash,"flashs for", durFlash,"ms, every",perFlash,"ms");
-    var vecFile = 'bin/flash.vec';
+    var vecFile = 'bin/flash_'+durFlash+'ms_'+perFlash+'ms_x'+nbFlash;
 
-    fs.writeFileSync(vecFile, "0 "+nbFlash*2+" 0 0 0\n");
-    for(var i = 0;i < nbFlash;i++){
-        for(var j = 0; j < durFlash; j++){
-            fs.appendFileSync(vecFile, "0 1 0 0 1\n");
-        }
-        for(j = durFlash; j < perFlash; j++){
-            fs.appendFileSync(vecFile, "0 2 0 0 2\n");
+    if(!fs.existsSync(vecFile)){
+        fs.writeFileSync(vecFile, "0 "+nbFlash*2+" 0 0 0\n");
+        for(var i = 0;i < nbFlash;i++){
+            for(var j = 0; j < durFlash; j++){
+                fs.appendFileSync(vecFile, "0 1 0 0 1\n");
+            }
+            for(j = durFlash; j < perFlash; j++){
+                fs.appendFileSync(vecFile, "0 2 0 0 2\n");
+            }
         }
     }
+    fs.copyFileSync(vecFile,'bin/flash.vec');
     console.log(".vec ready");
 }
 
