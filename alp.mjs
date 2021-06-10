@@ -102,7 +102,7 @@ function genVec(nbFlash = 10, durFlash = 100, perFlash = 1000){
     durFlash = Number(durFlash);
     perFlash = Number(perFlash);
     console.log("Gen VEC", nbFlash,"flashs for", durFlash,"ms, every",perFlash,"ms");
-    var vecFile = 'bin/flash_'+durFlash+'ms_'+perFlash+'ms_x'+nbFlash;
+    var vecFile = 'bin/flash_'+durFlash+'ms_'+perFlash+'ms_x'+nbFlash+'.vec';
 
     if(!fs.existsSync(vecFile)){
         fs.writeFileSync(vecFile, "0 "+nbFlash*2+" 0 0 0\n");
