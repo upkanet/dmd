@@ -353,7 +353,8 @@
         };
     }
 
-    document.addEventListener('keypress', logKey);
+    //document.addEventListener('keypress', logKey);
+    document.addEventListener('keydown', logKey);
     var goEaster = false;
     function logKey(e){
         if(e.code == "KeyJ"){
@@ -364,6 +365,18 @@
         }
         else{
             goEaster = false;
+        }
+        if(e.code == "ArrowUp"){
+            move(0,-h/100);
+        }
+        if(e.code == "ArrowDown"){
+            move(0,h/100);
+        }
+        if(e.code == "ArrowLeft"){
+            move(-w/100,0);
+        }
+        if(e.code == "ArrowRight"){
+            move(w/100,0);
         }
     }
 
