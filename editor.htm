@@ -277,7 +277,7 @@
     }
 
     function twentyFlash(){
-        setTiming(20,5,2000);
+        setTiming(20,10,2000);
     }
 
 
@@ -538,7 +538,7 @@
     <div id="timing" class="cards">
         <h3>Timing</h3>
         <label for="nbFlash"># Flash</label><br><input id="nbFlash" class="unitsi" type="text" onchange="totFlash()" value="20" size="3"><span class="unitst">#</span><br><br>
-        <label for="durFlash">Flash Duration</label><br><input id="durFlash" class="unitsi" type="text" onchange="totFlash()" value="5" size="4"><span class="unitst">ms</span><br><br>
+        <label for="durFlash">Flash Duration</label><br><input id="durFlash" class="unitsi" type="text" onchange="totFlash()" value="10" size="4"><span class="unitst">ms</span><br><br>
         <label for="perFlash">Next Flash</label><br><input id="perFlash" class="unitsi" type="text" onchange="totFlash()" value="2000" size="6"><span class="unitst">ms</span><br><br>
         <span id="totalFlash"></span><br><br>
         <button onclick="oneFlash();"><i class="ri-flashlight-fill"></i>1 F</button><button onclick="twentyFlash();">20 F</button><button id="continuousFlag" onclick="continuous();">Continuous</button>
