@@ -21,7 +21,8 @@
         ctx.clearRect(0, 0, w, h);
 
         canvas.addEventListener("mousemove", function (e) {
-            findxy('move', e)
+            findxy('move', e);
+            squarecursor(e);
         }, false);
         canvas.addEventListener("mousedown", function (e) {
             findxy('down', e)
@@ -34,6 +35,16 @@
         }, false);
 
         drawBG();
+    }
+
+    function squarecursor(e){
+        var SCX = e.clientX - canvas.offsetLeft - 100;
+        var SCY = e.clientY - canvas.offsetTop;
+        var SC = $("#squarecursor");
+        SC.css("width",sw);
+        SC.css("height",sh);
+        SC.css("left",SCX-sw/2);
+        SC.css("top",SCY-sh/2);
     }
 
     function draw() {
@@ -449,6 +460,18 @@
     #odtable thead{
         font-weight: bold;
     }
+
+    #squarecursor
+    {
+        position: absolute;
+        border: 1px dashed white;
+        width: 10px;
+        height: 10px;
+        left: 150px;
+        top: 150px;
+        z-index: 3;
+        pointer-events: none;
+    }
 </style>
 
 <body onload="init();totFlash();lux();">
@@ -467,6 +490,7 @@
         <span onclick="move(w/20,0)" title="Move Right"><i class="ri-arrow-right-line"></i></span>
     </div>
     <div id="editor">
+        <div id="squarecursor"></div>
         <canvas id="can" width="1024" height="768"
             style="position:absolute;top:0;left:0px;border:1px solid white;"></canvas>
         <canvas id="canbg" width="1024" height="768"
