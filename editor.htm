@@ -246,11 +246,11 @@
         var perFlash = Number(document.querySelector('#perFlash').value) || 1000;
         if(durFlash<perFlash){
             document.querySelector('#totalFlash').innerText = "Total : " + Math.round(perFlash * nbFlash / 1000) + " sec";
-            $('#continuousFlag').hide();
+            $('#continuousFlag').css("background","black");
         }
         else{
             document.querySelector('#totalFlash').innerText = "Total : ∞ sec";
-            $('#continuousFlag').show();
+            $('#continuousFlag').css("background","green");
         }
     }
 
@@ -268,9 +268,23 @@
     }
 
     function continuous(){
-        document.querySelector('#nbFlash').value = 1;
-        document.querySelector('#durFlash').value = 1000;
-        document.querySelector('#perFlash').value = 1000;
+        setTiming(1,2000,2000);
+    }
+
+    function oneFlash(){
+        setTiming(1,10,100);
+        play();
+    }
+
+    function twentyFlash(){
+        setTiming(20,5,2000);
+    }
+
+
+    function setTiming(nbFlash,durFlash,perFlash){
+        document.querySelector('#nbFlash').value = nbFlash;
+        document.querySelector('#durFlash').value = durFlash;
+        document.querySelector('#perFlash').value = perFlash;
         totFlash();
     }
 
@@ -487,13 +501,6 @@
         z-index: 3;
         pointer-events: none;
     }
-
-    #continuousFlag{
-        background-color: green;
-        color: green;
-        padding-left: 100px;
-        border-bottom: 1px solid white;
-    }
 </style>
 
 <body onload="init();totFlash();lux();">
@@ -534,7 +541,7 @@
         <label for="durFlash">Flash Duration</label><br><input id="durFlash" class="unitsi" type="text" onchange="totFlash()" value="5" size="4"><span class="unitst">ms</span><br><br>
         <label for="perFlash">Next Flash</label><br><input id="perFlash" class="unitsi" type="text" onchange="totFlash()" value="2000" size="6"><span class="unitst">ms</span><br><br>
         <span id="totalFlash"></span><br><br>
-        <button onclick="continuous();">Continuous</button><span id="continuousFlag">|</span>
+        <button onclick="oneFlash();"><i class="ri-flashlight-fill"></i>1 F</button><button onclick="twentyFlash();">20 F</button><button id="continuousFlag" onclick="continuous();">Continuous</button>
     </div>
     <div id="odtable">
         <label for="srcPw">Source Power</label><br><input id="srcPw" class="unitsi" type="text" onchange="lux();" value="10" size="3"><span class="unitst">%</span><br><br>
