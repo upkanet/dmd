@@ -297,12 +297,12 @@
         await log('Axorus DMD Driver');
     }
 
-    function lux(){
+    /*function lux(){
         var srcPw = document.querySelector('#srcPw').value;
         var srcFilter = document.querySelector('#srcFilter').value;
         var l = 1100000 * srcPw/100 * Math.pow(10,-1*srcFilter);
         document.querySelector('#lux').innerText = Math.round(l)+" lux";
-    }
+    }*/
 
     function invert(){
         canvas = document.getElementById('can');
@@ -396,6 +396,33 @@
         }
     }
 
+    function loadChipImg(){
+        var input = document.getElementById('chip_img');
+
+        var URL = window.webkitURL || window.URL;
+        var url = URL.createObjectURL(input.files[0]);
+        var img = new Image();
+        img.src = url;
+        img.onload = function() {
+                canvasbg = document.getElementById('canimgbg');
+                ctxbg = canvasbg.getContext("2d");
+                w = img.width;
+                h = img.height;
+                ctxbg.drawImage(img, 0, 0, w, h);
+                applyCircuit();
+        }
+    }
+
+    function applyCircuit(){
+        x = Number(document.getElementById('circuitX').value);
+        y = Number(document.getElementById('circuitY').value);
+        s = Number(document.getElementById('circuitScale').value);
+        var c = $('#canimgbg');
+        c.css('left',x);
+        c.css('top',y);
+        c.css('width', 1024*s);
+    }
+
 
 </script>
 <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
@@ -433,6 +460,10 @@
 
     #timing {
         top: 292px;
+    }
+
+    #circuits {
+        top: 638px;
     }
 
     #pngload{
@@ -503,7 +534,7 @@
     }
 </style>
 
-<body onload="init();totFlash();lux();">
+<body onload="init();totFlash();">
     <div id="menu">
         <span onclick="play()" title="Play on Microscope"><i class="ri-microscope-line"></i></span>
         <span onclick="saveAsImg()" title="Save as Image"><i class="ri-save-3-fill"></i></span>
@@ -522,8 +553,8 @@
         <div id="squarecursor"></div>
         <canvas id="can" width="1024" height="768"
             style="position:absolute;top:0;left:0px;border:1px solid white;"></canvas>
-        <canvas id="canbg" width="1024" height="768"
-            style="position:absolute;top:0;left:0px;z-index:2;pointer-events: none;"></canvas>
+        <canvas id="canbg" width="1024" height="768" style="position:absolute;top:0;left:0px;z-index:2;pointer-events: none;"></canvas>
+        <canvas id="canimgbg" width="1024" height="768" style="position:absolute;top:0;left:0px;z-index:-10;"></canvas>
     </div>
     <div id="console" class="cards">Axorus DMD Driver</div>
     <div id="pngload" class="cards">
@@ -543,11 +574,18 @@
         <span id="totalFlash"></span><br><br>
         <button onclick="oneFlash();"><i class="ri-flashlight-fill"></i>1 F</button><button onclick="twentyFlash();">20 F</button><button id="continuousFlag" onclick="continuous();">Continuous</button>
     </div>
-    <div id="odtable">
+    <div id="circuits" class="cards">
+        <h3>Circuits</h3>
+        <input type="file" id="chip_img" onchange="loadChipImg()"><br>
+        x <input id="circuitX" type="number" value="0" min="0" max="1024" step="1" onchange="applyCircuit();"><br>
+        y <input id="circuitY" type="number" value="0" min="0" max="768" step="1" onchange="applyCircuit();"><br>
+        scale <input id="circuitScale" type="text" value="1" size="5" onchange="applyCircuit();">
+    </div>
+    <!--<div id="odtable">
         <label for="srcPw">Source Power</label><br><input id="srcPw" class="unitsi" type="text" onchange="lux();" value="10" size="3"><span class="unitst">%</span><br><br>
         <label for="srcFilter">Filter</label><br><input id="srcFilter" class="unitsi" type="text" onchange="lux();" value="3" size="3"><span class="unitst">od</span><br><br>
         Illuminance : <span id="lux">0 lux</span>
-    </div>
+    </div>-->
     <input type="range" min="1" max="100" onclick="sizer(this)" style="position:absolute;top:20px;left:110px;z-index: 3; width: 250px;">
     <canvas id="canprep" width="1024" height="768" style="visibility:hidden;position:absolute;top:00px;left:0px;border:1px solid white;"></canvas>
 </body>
