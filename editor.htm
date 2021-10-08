@@ -394,6 +394,24 @@
         if(e.code == "ArrowRight"){
             move(w/100,0);
         }
+        if(e.code == "KeyA"){
+            moveCircuit(-5,0,0);
+        }
+        if(e.code == "KeyS"){
+            moveCircuit(0,5,0);
+        }
+        if(e.code == "KeyD"){
+            moveCircuit(5,0,0);
+        }
+        if(e.code == "KeyW"){
+            moveCircuit(0,-5,0);
+        }
+        if(e.code == "KeyQ"){
+            moveCircuit(0,0,-0.05);
+        }
+        if(e.code == "KeyE"){
+            moveCircuit(0,0,0.05);
+        }
     }
 
     function loadChipImg(){
@@ -421,6 +439,16 @@
         c.css('left',x);
         c.css('top',y);
         c.css('width', 1024*s);
+    }
+
+    function moveCircuit(x,y,s){
+        var cX = document.getElementById('circuitX');
+        var cY = document.getElementById('circuitY');
+        var cS = document.getElementById('circuitScale');
+        cX.value = Number(cX.value) + x;
+        cY.value = Number(cY.value) + y;
+        cS.value = Number(Number(cS.value) + s).toFixed(3);
+        applyCircuit();
     }
 
 
