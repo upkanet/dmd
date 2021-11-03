@@ -395,22 +395,28 @@
             move(w/100,0);
         }
         if(e.code == "KeyA"){
-            moveCircuit(-5,0,0);
+            moveCircuit(-5,0,0,0);
         }
         if(e.code == "KeyS"){
-            moveCircuit(0,5,0);
+            moveCircuit(0,5,0,0);
         }
         if(e.code == "KeyD"){
-            moveCircuit(5,0,0);
+            moveCircuit(5,0,0,0);
         }
         if(e.code == "KeyW"){
-            moveCircuit(0,-5,0);
+            moveCircuit(0,-5,0,0);
         }
         if(e.code == "KeyQ"){
-            moveCircuit(0,0,-0.05);
+            moveCircuit(0,0,-0.05,0);
         }
         if(e.code == "KeyE"){
-            moveCircuit(0,0,0.05);
+            moveCircuit(0,0,0.05,0);
+        }
+        if(e.code == "KeyZ"){
+            moveCircuit(0,0,0,-1);
+        }
+        if(e.code == "KeyC"){
+            moveCircuit(0,0,0,1);
         }
     }
 
@@ -435,19 +441,23 @@
         x = Number(document.getElementById('circuitX').value);
         y = Number(document.getElementById('circuitY').value);
         s = Number(document.getElementById('circuitScale').value);
+        r = Number(document.getElementById('circuitRotate').value);
         var c = $('#canimgbg');
         c.css('left',x);
         c.css('top',y);
         c.css('width', 1024*s);
+        c.css('transform', `rotate(${r}deg)`);
     }
 
-    function moveCircuit(x,y,s){
+    function moveCircuit(x,y,s,r){
         var cX = document.getElementById('circuitX');
         var cY = document.getElementById('circuitY');
         var cS = document.getElementById('circuitScale');
+        var cR = document.getElementById('circuitRotate');
         cX.value = Number(cX.value) + x;
         cY.value = Number(cY.value) + y;
         cS.value = Number(Number(cS.value) + s).toFixed(3);
+        cR.value = Number(cR.value) + r;
         applyCircuit();
     }
 
@@ -582,7 +592,7 @@
         <canvas id="can" width="1024" height="768"
             style="position:absolute;top:0;left:0px;border:1px solid white;"></canvas>
         <canvas id="canbg" width="1024" height="768" style="position:absolute;top:0;left:0px;z-index:2;pointer-events: none;"></canvas>
-        <canvas id="canimgbg" width="1024" height="768" style="position:absolute;top:0;left:0px;z-index:-10;"></canvas>
+        <canvas id="canimgbg" width="1024" height="768" style="position:absolute;top:0;left:0px;z-index:-10;transform-origin: top left;"></canvas>
     </div>
     <div id="console" class="cards">Axorus DMD Driver</div>
     <div id="pngload" class="cards">
@@ -607,7 +617,8 @@
         <input type="file" id="chip_img" onchange="loadChipImg()"><br>
         x <input id="circuitX" type="number" value="0" min="0" max="1024" step="1" onchange="applyCircuit();"><br>
         y <input id="circuitY" type="number" value="0" min="0" max="768" step="1" onchange="applyCircuit();"><br>
-        scale <input id="circuitScale" type="text" value="1" size="5" onchange="applyCircuit();">
+        scale <input id="circuitScale" type="text" value="1" size="5" onchange="applyCircuit();"><br>
+        rotate <input id="circuitRotate" type="text" value="0" size="5" onchange="applyCircuit();">
     </div>
     <!--<div id="odtable">
         <label for="srcPw">Source Power</label><br><input id="srcPw" class="unitsi" type="text" onchange="lux();" value="10" size="3"><span class="unitst">%</span><br><br>
