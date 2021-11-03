@@ -290,7 +290,7 @@
 
     async function log(msg){
         console.log(msg);
-        document.querySelector('#console').innerText = msg;
+        //document.querySelector('#console').innerText = msg;
     }
 
     async function clearLog(){
@@ -492,20 +492,20 @@
         background-color: blue;
     }
 
+    #pngload{
+        top:0px;
+    }
+
     #calib {
-        top: 145px;
+        top: 71px;
     }
 
     #timing {
-        top: 292px;
+        top: 214px;
     }
 
     #circuits {
-        top: 638px;
-    }
-
-    #pngload{
-        top:90px;
+        top: 552px;
     }
 
     .cards {
@@ -594,8 +594,8 @@
         <canvas id="canbg" width="1024" height="768" style="position:absolute;top:0;left:0px;z-index:2;pointer-events: none;"></canvas>
         <canvas id="canimgbg" width="1024" height="768" style="position:absolute;top:0;left:0px;z-index:-10;transform-origin: top left;"></canvas>
     </div>
-    <div id="console" class="cards">Axorus DMD Driver</div>
     <div id="pngload" class="cards">
+        Open saved image
         <input type="file" id="file_input" onchange="loadImg()">
     </div>
     <div id="calib" class="cards">
@@ -615,10 +615,10 @@
     <div id="circuits" class="cards">
         <h3>Circuits</h3>
         <input type="file" id="chip_img" onchange="loadChipImg()"><br>
-        x <input id="circuitX" type="number" value="0" min="0" max="1024" step="1" onchange="applyCircuit();"><br>
-        y <input id="circuitY" type="number" value="0" min="0" max="768" step="1" onchange="applyCircuit();"><br>
-        scale <input id="circuitScale" type="text" value="1" size="5" onchange="applyCircuit();"><br>
-        rotate <input id="circuitRotate" type="text" value="0" size="5" onchange="applyCircuit();">
+        x <input id="circuitX" class="unitsi" type="number" value="0" min="0" max="1024" step="1" onchange="applyCircuit();"><span class="unitst">px</span><br>
+        y <input id="circuitY" class="unitsi" type="number" value="0" min="0" max="768" step="1" onchange="applyCircuit();"><span class="unitst">px</span><br>
+        scale <input id="circuitScale" class="unitsi" type="text" value="1" size="5" onchange="applyCircuit();"><span class="unitst">x</span><br>
+        rotate <input id="circuitRotate" class="unitsi" type="text" value="0" size="5" onchange="applyCircuit();"><span class="unitst">°</span>
     </div>
     <!--<div id="odtable">
         <label for="srcPw">Source Power</label><br><input id="srcPw" class="unitsi" type="text" onchange="lux();" value="10" size="3"><span class="unitst">%</span><br><br>
