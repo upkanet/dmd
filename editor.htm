@@ -461,6 +461,75 @@
         applyCircuit();
     }
 
+    //Blazing Angle
+    function prime(angle){
+        return Math.atan(Math.tan(angle)/Math.sqrt(2));
+    }
+
+    function degInrad(angleDeg){
+        return angleDeg * Math.PI / 180;
+    }
+
+    function getM(lambda,pitch,alpha,theta){
+        let thetaP = prime(theta);
+        let alphaP = prime(alpha);
+        let betaP = 2*thetaP-alphaP;
+        return pitch/lambda*(Math.sin(alphaP)+Math.sin(betaP));
+    }
+
+    function getMu(lambda,pitch,alpha,theta){
+        let alphaR = degInrad(alpha);
+        let thetaR = degInrad(theta);
+        return Math.abs(Math.abs(getM(lambda,pitch,alphaR,thetaR)%1)-0.5).toFixed(2);
+    }
+
+    function drawMu(){
+        let lambda = Number($('#blazeLambda').val());
+        let pitch = Number($('#blazePitch').val());
+        let alpha = Number($('#blazeAlpha').val());
+        let theta = Number($('#blazeTheta').val());
+        let mu = getMu(lambda,pitch,alpha,theta);
+        
+        let canBlaze = document.querySelector('#canblaze');
+        let w = canBlaze.width;
+        let h = canBlaze.height;
+        let ctxBlaze = canBlaze.getContext('2d');
+
+        ctxBlaze.clearRect(0,0,w,h);
+
+        ctxBlaze.beginPath();
+        ctxBlaze.lineWidth = "1";
+        ctxBlaze.strokeStyle = "blue";
+        let step = w/150;
+        for(var i = 0; i<=150;i++){
+            var alphaX = i-75;
+            var muY = (0.5-getMu(lambda,pitch,alphaX,theta))/0.6*h;
+            if(i==0) ctxBlaze.moveTo(0,muY);
+            else ctxBlaze.lineTo(i*step,muY);
+        }
+        ctxBlaze.stroke();
+        //Abscisse
+        ctxBlaze.beginPath();
+        ctxBlaze.lineWidth = "2";
+        ctxBlaze.moveTo(0,h*0.95);
+        ctxBlaze.lineTo(w,h*0.95);
+        ctxBlaze.stroke();
+        //mu value
+        ctxBlaze.font = "14px Arial";
+        ctxBlaze.fillStyle = "#5555FF";
+        ctxBlaze.textAlign = "center";
+        ctxBlaze.fillText("-75", 10, h*0.9);
+        ctxBlaze.fillText("0", w/2, h*0.9);
+        ctxBlaze.fillText("75", w-10, h*0.9);
+        //current value
+        ctxBlaze.fillText(mu, (alpha+75)/150*w+15, h/2);
+        ctxBlaze.fillRect((alpha+75)/150*w,0,1,h);
+    }
+
+    function showBlaze(){
+        drawMu();
+        $('#canblaze').show();
+    }
 
 </script>
 <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
@@ -620,6 +689,15 @@
         scale <input id="circuitScale" class="unitsi" type="text" value="1" size="5" onchange="applyCircuit();"><span class="unitst">x</span><br>
         rotate <input id="circuitRotate" class="unitsi" type="text" value="0" size="5" onchange="applyCircuit();"><span class="unitst">°</span>
     </div>
+    <div id="blazing" class="cards">
+        <h3>Blazing Angle</h3>
+        lambda <input id="blazeLambda" class="unitsi" type="number" value="0.3" min="0.3" max="2" step="0.01" onchange="drawMu();"><span class="unitst">µm</span><br>
+        pitch <input id="blazePitch" class="unitsi" type="number" value="5" min="5" max="15" step="0.1" onchange="drawMu();"><span class="unitst">µm</span><br>
+        alpha <input id="blazeAlpha" class="unitsi" type="number" value="0" min="-75" max="75" step="1" onchange="drawMu();"><span class="unitst">°</span><br>
+        theta <input id="blazeTheta" class="unitsi" type="number" value="0" min="-20" max="20" step="1" onchange="drawMu();"><span class="unitst">°</span><br>
+        <button onclick="showBlaze();">Show Blaze</button>
+    </div>
+
     <!--<div id="odtable">
         <label for="srcPw">Source Power</label><br><input id="srcPw" class="unitsi" type="text" onchange="lux();" value="10" size="3"><span class="unitst">%</span><br><br>
         <label for="srcFilter">Filter</label><br><input id="srcFilter" class="unitsi" type="text" onchange="lux();" value="3" size="3"><span class="unitst">od</span><br><br>
@@ -627,5 +705,6 @@
     </div>-->
     <input type="range" min="1" max="100" onclick="sizer(this)" style="position:absolute;top:20px;left:110px;z-index: 3; width: 250px;">
     <canvas id="canprep" width="1024" height="768" style="visibility:hidden;position:absolute;top:00px;left:0px;border:1px solid white;"></canvas>
+    <canvas id="canblaze" width="800" height="400" style="display:none;position: absolute; top:780px;left:100px"></canvas>
 </body>
 </html>
